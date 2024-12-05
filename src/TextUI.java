@@ -27,4 +27,19 @@ public class TextUI {
         String input = scan.nextLine();
         return input;
     }
+
+    public float promptDecimalNumeric(String msg) {
+        System.out.println(msg);              // Stille brugeren et spørgsmål
+        String input = scan.nextLine();
+        float number;
+        // Give brugere et sted at placere sit svar og vente på svaret
+        try {
+            number = Float.parseFloat(input);
+        }
+        catch(NumberFormatException e){
+            displayMsg("Please type a number");
+            number = promptNumeric(msg);
+        }
+        return number;
+    }
 }
