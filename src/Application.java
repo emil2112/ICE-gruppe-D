@@ -60,7 +60,6 @@ public class Application {
         int height = ui.promptNumeric("Type your height in centimeters:");
         float weight = ui.promptDecimalNumeric("Type your weight in kilograms:");
         currentUser = new User(username, password, sex, age, height, weight);
-        this.addUser(currentUser);
     }
 
     public void loadUserData() {
