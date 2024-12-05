@@ -8,7 +8,15 @@ class Main{
 database Database{
 
 }
+package "util"{
+class DBconnector{
 
+}
+
+class TextUI{
+
+}
+}
 class Application{
 -String name
 -User currentUser
