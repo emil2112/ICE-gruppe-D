@@ -1,0 +1,86 @@
+@startuml
+!pragma layout smetana
+
+class Main{
+   +static void main(String[] args)
+}
+
+database Database{
+
+}
+
+class Application{
+-String name
+-User currentUser
+-TextUI ui
+-DBconnector connector
+-HashMap<String, String> loginData
+
++Application(String name)
++void startApplication()
++void createUser()
++void addUser()
++void loadUser()
+}
+
+class User{
+-String userName
+-String password
+-float height
+-float weight
+-int age
+-String sex
++user(String userName, String password, String sex, int age, float height, float weight)
+-Collection<WorkoutProgram> workoutPrograms
+}
+
+class Menu{
++void displayMenu()
+}
+
+class Calendar{
++void displayCalendar()
++void addToCalendar()
++void removeFromCalendar()
+}
+
+class WorkoutProgram{
+-Collection<Exercise> exercises
++void createWorkoutProgram()
+}
+
+class Workout{
++void startWorkout()
++void displayPrograms()
+}
+
+class Stats{
++void displayStats()
+}
+
+class Exercise{
+-int sets
+-int reps
+-float weight
+-float restTime
+-String muscleType
++Exercise(int sets, int reps, float weight, float restTime, String muscleType)
+}
+
+class ExerciseCreator{
++void createExercise()
++void editExercise()
++void deleteExercise()
+}
+
+Main <|-- Application
+Application <|-- User
+Application <|-- Menu
+Menu <|-- Workout
+Menu <|-- WorkoutProgram
+Menu <|-- Stats
+Menu <|-- Calendar
+Menu <|-- Settings
+WorkoutProgram <|-- Exercise
+Exercise <|-- ExerciseCreator
+@enduml
