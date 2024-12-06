@@ -5,10 +5,12 @@ public class Application {
     User currentUser;
     HashMap<String, String> loginData;
     TextUI ui;
-    //DBConnector connector;
+    DBConnector connector;
 
     public Application(String name) {
         this.name = name;
+        connector = new DBConnector();
+        connector.connect("jdbc:sqlite:identifier.sqlite");
     }
 
     public void startApplication() {
