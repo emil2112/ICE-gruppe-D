@@ -15,4 +15,8 @@ public class User {
         this.height = height;
         this.weight = weight;
     }
+
+    public String getPassword() {
+        return password;
+    }
 }

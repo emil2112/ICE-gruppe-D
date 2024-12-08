@@ -2,28 +2,108 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class DBConnector {
-    Connection conn;
+    private Connection conn;
+
     public void connect(String url) {
         try {
             conn = DriverManager.getConnection(url);
             System.out.println("Connection to SQLite has been established.");
 
         } catch (SQLException e) {
-
             System.out.println(e.getMessage());
-
         }
     }
-    public void registerUser(String username, String password, String sex, int age, int height, float weight){
-        String sql =  "INSERT INTO users VALUES (username, password, sex, age, height, weight) " +
-                "VALUES (" + username + ", " + password + ", " + sex + ", " + age + ", " + height + ", " + weight + ")";
 
-        try {
-            Statement stmt = conn.createStatement();
-            stmt.executeQuery(sql);
-        }catch (SQLException e){
+    public void registerUser(String username, String password, String sex, int age, int height, float weight) {
+        String sql = "INSERT INTO users (username, password, sex, age, height, weight) VALUES (?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, username);
+            stmt.setString(2, password);
+            stmt.setString(3, sex);
+            stmt.setInt(4, age);
+            stmt.setInt(5, height);
+            stmt.setFloat(6, weight);
+
+            stmt.executeUpdate();  // Execute the insert
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
     }
+
+    public boolean userExistsInDatabase(String username) {
+        if(conn == null) {
+            System.out.println("no database connection");
+            return false;
+        }
+        String query = "SELECT COUNT(*) FROM users WHERE username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            return rs.getInt(1) > 0;  // Returns true if user exists
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean isValidLogin(String username, String password) {
+        String query = "SELECT password FROM users WHERE username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next() && rs.getString("password").equals(password)) {
+                return true;  // Credentials are correct
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;  // Invalid username or password
+    }
+
+    public User getUserDetails(String username) {
+        String query = "SELECT username, password, sex, age, height, weight FROM users WHERE username = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                // Extracting the data from the ResultSet
+                String password = rs.getString("password");
+                String sex = rs.getString("sex");
+                int age = rs.getInt("age");
+                int height = rs.getInt("height");
+                float weight = rs.getFloat("weight");
+
+                // Return a new User object with all details
+                return new User(username, password, sex, age, height, weight);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;  // If no user is found, return null
+    }
+
+    public boolean isUserTableEmpty() {
+        if (conn == null) {
+            System.out.println("Database connection is not established.");
+            return true;
+        }
+        String query = "SELECT COUNT(*) FROM users";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            ResultSet rs = stmt.executeQuery();
+            return rs.getInt(1) == 0;  // Returns true if table is empty
+        } catch (SQLException e) {
+            System.out.println("Error checking if table is empty: " + e.getMessage());
+            return true;
+        }
+    }
+
+
 
 
     /*
