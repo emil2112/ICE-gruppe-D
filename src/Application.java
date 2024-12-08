@@ -12,7 +12,8 @@ public class Application {
         this.name = name;
         ui = new TextUI();
         connector = new DBConnector();
-        connector.connect("jdbc:sqlite:identifier.sqlite");
+        var url = "jdbc:sqlite:identifier.sqlite";
+        connector.connect(url);
     }
 
     public void startApplication() {
@@ -40,7 +41,7 @@ public class Application {
             ui.displayMsg("Username must be between 4 and 25 characters");
             username = ui.promptText("Type username:");
         }
-        if(connector.userExistsInDatabase(username)) {
+        if(connector.userExists(username)) { // Tjekker om den skrevner bruger allerede eksistere i databasen.
             ui.displayMsg("Username is already in use. Please choose a different username");
             createUser();
             return;
@@ -57,30 +58,23 @@ public class Application {
         int height = ui.promptNumeric("Type your height in centimeters:");
         float weight = ui.promptDecimalNumeric("Type your weight in kilograms:");
 
-        connector.registerUser(username, password, sex, age, height, weight);
+        connector.registerUser(username, password, sex, age, height, weight); // Med informationerne bliver der lavet en row med de angivne informationer
         currentUser = new User(username, password, sex, age, height, weight);
     }
 
     public void loadUserData() {
         String enteredUsername = ui.promptText("Type username:");
         String enteredPassword = ui.promptText("Type password:");
-
-        // Attempt to load user data from the database
-        if (connector.isValidLogin(enteredUsername, enteredPassword)) {
-            // Retrieve additional user details from the database
-            User user = connector.getUserDetails(enteredUsername);
+        if (connector.validLogin(enteredUsername, enteredPassword)) { // Tjekker om det skrevne username og password passer til databasen.
+            // Loader en user med data fra databasen
+            User user = connector.getUserData(enteredUsername);
             if (user != null && user.getPassword().equals(enteredPassword)) {
-                // Create a new User object with full details
+                // Laver useren med dataen
                 currentUser = user;
-                // Proceed to the next part of the application (e.g., user menu)
-            } else {
-                ui.displayMsg("Username or password is incorrect. Please try again");
-                loadUserData();
             }
         } else {
-            ui.displayMsg("User does not exist. Please create a new one");
-            createUser();  // Retry if credentials are wrong
+            ui.displayMsg("Invalid username or password. Please try again");
+            loadUserData();
         }
     }
-
 }

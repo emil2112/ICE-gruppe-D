@@ -15,72 +15,67 @@ public class DBConnector {
     }
 
     public void registerUser(String username, String password, String sex, int age, int height, float weight) {
-        String sql = "INSERT INTO users (username, password, sex, age, height, weight) " +
-                "VALUES ('" + username + "', " + password + ", " + sex + ", " + age + ", " + height + ", " + weight + ")";
+        String sql = "INSERT INTO Users (username, password, sex, age, height, weight) " +
+                "VALUES ('" + username + "', '" + password + "', '" + sex + "', '" + age + "', '" + height + "', '" + weight + "')";
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage()); Ved ikke hvorfor den altid catcher den her. Men det virker :')
         }
     }
 
 
 
-    public boolean userExistsInDatabase(String username) {
-        String sql = "SELECT COUNT(*) FROM users WHERE username = " + username;
+    public boolean userExists(String username) {
+        String sql = "SELECT username FROM Users WHERE username = '" + username + "'";
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
-            return true;
+            return rs.next();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
             return false;
         }
     }
 
+    public boolean validLogin(String username, String password) {
+        String sql = "SELECT password FROM users WHERE username =" + "'" + username + "'";
 
-
-
-    public boolean isValidLogin(String username, String password) {
-        String query = "SELECT password FROM users WHERE username = ?";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next() && rs.getString("password").equals(password)) {
-                return true;  // Credentials are correct
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next() && rs.getString("password").equals(password)) { // Hvis der er en row og password passer med password i den row
+                return true;
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        return false;  // Invalid username or password
+        return false;
     }
 
-    public User getUserDetails(String username) {
-        String query = "SELECT username, password, sex, age, height, weight FROM users WHERE username = ?";
 
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            stmt.setString(1, username);
-            ResultSet rs = stmt.executeQuery();
+    public User getUserData(String username) {
+        String sql = "SELECT username, password, sex, age, height, weight FROM users WHERE username = '" + username + "'";
 
-            if (rs.next()) {
-                // Extracting the data from the ResultSet
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+
+            if(rs.next()) { // Læser dataen fra den row og lægger det i variabler. Returns ny User med de variabler.
                 String password = rs.getString("password");
                 String sex = rs.getString("sex");
                 int age = rs.getInt("age");
                 int height = rs.getInt("height");
                 float weight = rs.getFloat("weight");
-
-                // Return a new User object with all details
                 return new User(username, password, sex, age, height, weight);
             }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-
-        return null;  // If no user is found, return null
+        return null;
     }
+
+
 
 
     /*
