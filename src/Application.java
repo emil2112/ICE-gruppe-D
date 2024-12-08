@@ -17,10 +17,6 @@ public class Application {
 
     public void startApplication() {
         ui.displayMsg("Welcome to " + this.name + "\n1. Sign up now! \n2. Login");
-        if(connector.isUserTableEmpty()) {
-            ui.displayMsg("No users found. Please create a new one");
-            createUser();
-        }
         int choice = ui.promptNumeric("Type 1 or 2.");
 
         if (choice == 1) { // Brugernes valg bliver gemt og tjekkes om hvilket nummer det er.
