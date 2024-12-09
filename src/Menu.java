@@ -26,8 +26,8 @@ public class Menu {
             System.out.println("Entering stats page...");
         } else if (choice == 5){
             System.out.println("Entering settings...");
+        } else {
+
         }
-
-
     }
 }
