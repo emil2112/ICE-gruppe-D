@@ -20,6 +20,9 @@ public class Menu {
             System.out.println("Entering stats page...");
         } else if (choice == 5){
             System.out.println("Entering settings...");
+        } else{
+            System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+            displayMenu();
         }
 
 
