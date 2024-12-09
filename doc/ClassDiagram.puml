@@ -10,11 +10,21 @@ database Database{
 }
 package "util"{
 class DBconnector{
+-Connection conn
++void connect(String url)
++void registerUser(String username, String password, String sex, int age, int height, float weight)
++boolean userExists(String username)
++boolean validLogin(String username, String password)
++User getUserData(String username)
 
 }
 
 class TextUI{
-
+-Scanner scan
++void displayMsg(String msg)
++int promptNumeric(String msg)
++String promptText(String msg)
++float promptDecimalNumeric(String msg)
 }
 }
 class Application{
@@ -22,19 +32,18 @@ class Application{
 -User currentUser
 -TextUI ui
 -DBconnector connector
--HashMap<String, String> loginData
+-Menu menu
 
 +Application(String name)
 +void startApplication()
 +void createUser()
-+void addUser()
 +void loadUser()
 }
 
 class User{
--String userName
+-String username
 -String password
--float height
+-int height
 -float weight
 -int age
 -String sex
@@ -81,14 +90,14 @@ class ExerciseCreator{
 +void deleteExercise()
 }
 
-Main <|-- Application
-Application <|-- User
-Application <|-- Menu
-Menu <|-- Workout
-Menu <|-- WorkoutProgram
-Menu <|-- Stats
-Menu <|-- Calendar
-Menu <|-- Settings
-WorkoutProgram <|-- Exercise
-Exercise <|-- ExerciseCreator
+Main *-- Application
+Application *-- User
+Application *-- Menu
+Menu *-- Workout
+Menu *-- WorkoutProgram
+Menu *-- Stats
+Menu *-- Calendar
+Menu *-- Settings
+WorkoutProgram *-- Exercise
+Exercise *-- ExerciseCreator
 @enduml
