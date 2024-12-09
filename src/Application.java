@@ -3,7 +3,6 @@ import java.util.HashMap;
 public class Application {
     private String name;
     private User currentUser;
-    private HashMap<String, String> loginData;
     private TextUI ui;
     private DBConnector connector;
     private Menu menu;
