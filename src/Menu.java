@@ -6,6 +6,7 @@ public class Menu {
     }
 
     void displayMenu() {
-        System.out.println("Menu");
+        Calendar calendar = new Calendar(currentUser);
+        calendar.displayCalendar();
     }
 }

@@ -1,13 +1,25 @@
+import java.util.Scanner;
+
 public class Calendar {
-    void displayCalendar(){
+    private User currentUser;
+    private Scanner scan;
+
+
+    public Calendar(User currentUser) {
+        this.currentUser = currentUser;
+        this.scan = new Scanner(System.in);
+    }
+
+    public void displayCalendar(){
+
 
     }
 
-    void addToCalendar(){
+    public void addToCalendar(){
 
     }
 
-    void removeFromCalendar(){
+    public void removeFromCalendar(){
 
     }
 }
