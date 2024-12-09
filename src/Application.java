@@ -53,7 +53,15 @@ public class Application {
 
         ui.displayMsg("Thank you for using " + this.name + ". You are almost ready, we just need a few informations");
         String sex = ui.promptText("Which sex are you? (male/female):");
+        while(!sex.equalsIgnoreCase("male") && !sex.equalsIgnoreCase("female")) {
+            ui.displayMsg("Sorry, but that input is invald. Please write male or female");
+            sex = ui.promptText("Write your sex:");
+        }
         int age = ui.promptNumeric("Type your age:");
+        while(age < 15) {
+            ui.displayMsg("You must be minimum 15 years of age to use the service");
+            age = ui.promptNumeric("Type your age:");
+        }
         int height = ui.promptNumeric("Type your height in centimeters:");
         float weight = ui.promptDecimalNumeric("Type your weight in kilograms:");
 
