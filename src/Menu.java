@@ -1,8 +1,10 @@
 public class Menu {
     private User currentUser;
+    private TextUI ui;
 
     public Menu(User currentUser) {
         this.currentUser = currentUser;
+        this.ui = new TextUI();
     }
 
     void displayMenu() {
@@ -14,7 +16,9 @@ public class Menu {
         } else if (choice == 2){
             System.out.println("Entering Workout program tab...");
         } else if (choice == 3){
-            System.out.println("Entering Calendar...");
+            Calendar calender = new Calendar(currentUser);
+            ui.displayMsg("Entering Calendar...");
+            calender.displayCalendar();
         } else if (choice == 4){
             System.out.println("Entering stats page...");
         } else if (choice == 5){
