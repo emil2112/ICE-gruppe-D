@@ -1,10 +1,17 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class WorkoutProgram {
     private User currentUser;
     private TextUI ui;
+    private DBConnector connector;
 
-    public WorkoutProgram(User currentUser){
+    public WorkoutProgram(User currentUser, DBConnector connector){
         this.currentUser = currentUser;
         ui = new TextUI();
+        this.connector = connector;
+        var url = "jdbc:sqlite:identifier.sqlite";
+        connector.connect(url);
     }
     //Collection<Exercise> exercises;
     public void displayWorkoutProgramMenu(){
@@ -21,7 +28,51 @@ public class WorkoutProgram {
         }
 
     }
-    void createWorkoutProgram(){
+    void createWorkoutProgram() {
+        List<Exercise> exercises = connector.getAllExercises();
+        if (exercises.isEmpty()) {
+            ui.displayMsg("No exercises available in the database.");
+            return;
+        }
 
+        ui.displayMsg("Available exercises:");
+        for (Exercise exercise : exercises) {
+            ui.displayMsg(exercise.toString());
+        }
+
+        List<Exercise> selectedExercises = new ArrayList<>();
+        while (true) {
+            int exerciseId = ui.promptNumeric("Enter the number of desired exercise to add to your program or 0 to finish:");
+
+            if (exerciseId == 0) {
+                break;
+            }
+
+            Exercise selectedExercise = null;
+            for (Exercise exercise : exercises) {
+                if (exercise.getId() == exerciseId) {
+                    selectedExercise = exercise;
+                    break;
+                }
+            }
+
+            if (selectedExercise != null) {
+                selectedExercises.add(selectedExercise);
+                ui.displayMsg("Added: " + selectedExercise.getName());
+            } else {
+                ui.displayMsg("Invalid ID. Please try again.");
+            }
+        }
+
+        if (selectedExercises.isEmpty()) {
+            ui.displayMsg("No exercises selected. Program was not created.");
+        } else {
+            // save workout program to database code needed here...
+            ui.displayMsg("Workout program created with the following exercises:");
+            for (Exercise exercise : selectedExercises) {
+                ui.displayMsg(exercise.toString());
+            }
+        }
     }
 }
+
