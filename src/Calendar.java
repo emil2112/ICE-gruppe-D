@@ -69,7 +69,7 @@ public class Calendar {
     }
 
     public void addToCalendar(){
-        int choice = ui.promptNumeric("Enter the day you want to add a workout program to:");
+        int day = ui.promptNumeric("Enter the day you want to add a workout program to:");
         ArrayList<String> workoutNames = dbConnector.getworkoutNames();
         int counter = 1;
         for(String e: workoutNames){
@@ -81,6 +81,7 @@ public class Calendar {
         String workoutName = workoutNames.get(userChoice-1);
 
         int workoutID = dbConnector.getWorkoutID(workoutName);
+        dbConnector.registerWorkoutDay(workoutID, day);
         calendarMenu();
     }
 
@@ -91,6 +92,6 @@ public class Calendar {
     }
 
     public void showWorkouts(){
-
+        // Man skal kunne vælge en dag fra kalenderen, hvor den så viser program for en given dag (hvis der ligger noget på den).
     }
 }
