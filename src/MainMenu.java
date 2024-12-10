@@ -4,9 +4,11 @@ import java.awt.*;
 
 public class MainMenu extends JFrame {
     private Application application;
+    private DBConnector connector;
 
     public MainMenu(Application application){
         this.application = application;
+        this.connector = connector;
         setTitle("Main Menu");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(360,640);
@@ -43,7 +45,7 @@ public class MainMenu extends JFrame {
     }
     private void handleWorkoutProgram(){
         JOptionPane.showMessageDialog(this,"Workout Program clicked");
-        WorkoutProgram workoutProgram = new WorkoutProgram(application.getCurrentUser());
+        WorkoutProgram workoutProgram = new WorkoutProgram(application.getCurrentUser(), connector);
         workoutProgram.displayWorkoutProgramMenu();
     }
     private void handleCalendar(){
