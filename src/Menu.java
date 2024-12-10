@@ -1,11 +1,16 @@
+import org.sqlite.SQLiteConnectionConfig;
+
 public class Menu {
     private User currentUser;
     private TextUI ui;
     private WorkoutProgram workoutProgram;
+    private DBConnector connector;
 
     public Menu(User currentUser) {
         this.currentUser = currentUser;
         ui = new TextUI();
+        connector = new DBConnector();
+        connector.connect("jdbc:sqlite:identifier.sqlite");
     }
 
     public void displayMenu() {
@@ -16,7 +21,7 @@ public class Menu {
             System.out.println("Entering workout tab...");
         } else if (choice == 2){
             System.out.println("Entering Workout program tab...");
-            this.workoutProgram = new WorkoutProgram(currentUser);
+            this.workoutProgram = new WorkoutProgram(currentUser, connector);
             workoutProgram.displayWorkoutProgramMenu();
         } else if (choice == 3){
             System.out.println("Entering Calendar...");

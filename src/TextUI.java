@@ -42,4 +42,9 @@ public class TextUI {
         }
         return number;
     }
+
+    public String promptString(String message) {
+        System.out.println(message);
+        return scan.nextLine();
+    }
 }
