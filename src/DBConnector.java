@@ -74,8 +74,60 @@ public class DBConnector {
             System.out.println(e.getMessage());
         }
         return null;
+    }
 
+    public int getWorkoutID(String name) {
+        String sql = "SELECT WorkoutID FROM WorkoutProgram WHERE workoutName = '" + name + "'";
 
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()) {
+                return rs.getInt("WorkoutID");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public void registerWorkoutDay(int workoutID, int day) {
+        String sql = "INSERT INTO CalendarDecember2024 (programs, dayNumber)" +
+                "VALUES ('" + workoutID + "', '" + day + "')";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void removeWorkoutDay(int day) {
+        String sql = "DELETE FROM CalendarDecember2024 WHERE dayNumber = '" + day + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public ArrayList<String> getworkoutNames() {
+        String sql = "SELECT workoutName FROM CalendarDecember2024";
+        ArrayList<String> workoutNames = new ArrayList<>();
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()) {
+                workoutNames.add(rs.getString("workoutName"));
+            }
+            return workoutNames;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
 

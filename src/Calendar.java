@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.Scanner;
@@ -6,12 +7,13 @@ public class Calendar {
     private GregorianCalendar calendar;
     private User currentUser;
     private TextUI ui;
-
+    private DBConnector dbConnector;
 
     public Calendar(User currentUser) {
         calendar = new GregorianCalendar(2024, 12-1, 1);
         this.currentUser = currentUser;
         this.ui = new TextUI();
+        this.dbConnector = new DBConnector();
     }
 
     public void calendarMenu() {
@@ -68,11 +70,21 @@ public class Calendar {
 
 
     public void addToCalendar(){
+        int choice = ui.promptNumeric("Enter the day you want to add a workout program to:");
+        ArrayList<String> workoutNames = dbConnector.getworkoutNames();
+
+        // Kald på metode fra workout der viser workout programs. Måske ikke, da der måske skal laves lidt om. Man skal jo kunne vælge en fra listen.
+        // Vi gammer valget i en variabel, som bør indeholde navnet på workout programmet.
+        //int workoutID = dbConnector.getWorkoutID(/*navn*/ );
+        calendarMenu();
+
 
     }
 
     public void removeFromCalendar(){
-
+        int choice = ui.promptNumeric("Enter the day you want to remove a workout program from:");
+        dbConnector.removeWorkoutDay(choice);
+        calendarMenu();
     }
 
     public void showWorkouts(){
