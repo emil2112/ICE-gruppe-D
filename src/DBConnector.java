@@ -54,6 +54,7 @@ public class DBConnector {
     }
 
 
+
     public User getUserData(String username) {
         String sql = "SELECT username, password, sex, age, height, weight FROM users WHERE username = '" + username + "'";
 
@@ -73,6 +74,8 @@ public class DBConnector {
             System.out.println(e.getMessage());
         }
         return null;
+
+
     }
 
 

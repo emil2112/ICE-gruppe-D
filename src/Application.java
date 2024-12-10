@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.HashMap;
 
 public class Application {
@@ -16,6 +17,7 @@ public class Application {
     }
 
     public void startApplication() {
+        SwingUtilities.invokeLater(()-> new LoginScreenGUI(this).setVisible(true));
         ui.displayMsg("Welcome to " + this.name + "\n1. Sign up now! \n2. Login");
         int choice = ui.promptNumeric("Type 1 or 2.");
 
@@ -83,5 +85,17 @@ public class Application {
             ui.displayMsg("Invalid username or password. Please try again");
             loadUserData();
         }
+    }
+
+    public DBConnector getConnector() {
+        return connector;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }
