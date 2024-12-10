@@ -4,7 +4,7 @@ public class Menu {
     private WorkoutProgram workoutProgram;
     private DBConnector connector;
 
-    public Menu(User currentUser) {
+    public Menu(User currentUser, DBConnector connector) {
         this.currentUser = currentUser;
         ui = new TextUI();
         this.connector = connector;
@@ -22,7 +22,7 @@ public class Menu {
             this.workoutProgram = new WorkoutProgram(currentUser, connector);
             workoutProgram.displayWorkoutProgramMenu();
         } else if (choice == 3){
-            Calendar calender = new Calendar(currentUser);
+            Calendar calender = new Calendar(currentUser, connector);
             ui.displayMsg("Entering Calendar...");
             calender.calendarMenu();
         } else if (choice == 4){
