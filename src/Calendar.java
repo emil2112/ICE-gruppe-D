@@ -68,17 +68,20 @@ public class Calendar {
         }
     }
 
-
     public void addToCalendar(){
         int choice = ui.promptNumeric("Enter the day you want to add a workout program to:");
         ArrayList<String> workoutNames = dbConnector.getworkoutNames();
+        int counter = 1;
+        for(String e: workoutNames){
+            ui.displayMsg(counter + ". " + e);
+            counter++;
+        }
 
-        // Kald på metode fra workout der viser workout programs. Måske ikke, da der måske skal laves lidt om. Man skal jo kunne vælge en fra listen.
-        // Vi gammer valget i en variabel, som bør indeholde navnet på workout programmet.
-        //int workoutID = dbConnector.getWorkoutID(/*navn*/ );
+        int userChoice = ui.promptNumeric("Enter the number on the program you want to add:");
+        String workoutName = workoutNames.get(userChoice-1);
+
+        int workoutID = dbConnector.getWorkoutID(workoutName);
         calendarMenu();
-
-
     }
 
     public void removeFromCalendar(){
