@@ -50,7 +50,7 @@ public class WorkoutProgram {
 
             Exercise selectedExercise = null;
             for (Exercise exercise : exercises) {
-                if (exercise.getId() == exerciseId) {
+                if (exercise.getExerciseID() == exerciseId) {
                     selectedExercise = exercise;
                     break;
                 }
@@ -58,7 +58,7 @@ public class WorkoutProgram {
 
             if (selectedExercise != null) {
                 selectedExercises.add(selectedExercise);
-                ui.displayMsg("Added: " + selectedExercise.getName());
+                ui.displayMsg("Added: " + selectedExercise.getExerciseName());
             } else {
                 ui.displayMsg("Invalid ID. Please try again.");
             }

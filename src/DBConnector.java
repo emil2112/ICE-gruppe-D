@@ -156,7 +156,10 @@ public class DBConnector {
         return exercises;
     }
 
-
+    // Method to get the current connection
+    public Connection getConnection() {
+        return conn;
+    }
 
 
     /*
