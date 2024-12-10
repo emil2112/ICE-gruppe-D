@@ -21,13 +21,14 @@ public class Menu {
         } else if (choice == 3){
             Calendar calender = new Calendar(currentUser);
             ui.displayMsg("Entering Calendar...");
-            calender.displayCalendar();
+            calender.calendarMenu();
         } else if (choice == 4){
             System.out.println("Entering stats page...");
         } else if (choice == 5){
             System.out.println("Entering settings...");
         } else {
-
+            System.out.println("Invalid choice. Please enter a number between 1 and 5.");
+            displayMenu();
         }
     }
 }

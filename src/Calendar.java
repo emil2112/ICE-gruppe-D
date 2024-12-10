@@ -3,43 +3,67 @@ import java.util.Locale;
 import java.util.Scanner;
 
 public class Calendar {
+    private GregorianCalendar calendar;
     private User currentUser;
     private TextUI ui;
 
 
     public Calendar(User currentUser) {
+        calendar = new GregorianCalendar(2024, 12-1, 1);
         this.currentUser = currentUser;
         this.ui = new TextUI();
     }
 
+    public void calendarMenu() {
+        displayCalendar();
+        ui.displayMsg("1. Add Workout \n2. Remove Workout \n3. Show Workouts \n4. Exit to main menu");
+        int choice = ui.promptNumeric("Enter choice: ");
+
+        switch (choice) {
+            case 1:
+                addToCalendar();
+                break;
+            case 2:
+                removeFromCalendar();
+                break;
+            case 3:
+                showWorkouts();
+                break;
+            case 4:
+                Menu menu = new Menu(currentUser);
+                menu.displayMenu();
+                break;
+            default:
+                ui.displayMsg("Invalid choice. Try again.");
+                calendarMenu();
+                break;
+        }
+    }
+
     public void displayCalendar(){
-        int year = ui.promptNumeric("Enter year:");
-        int month = ui.promptNumeric("Enter month");
+        int firstDayOfMonth = calendar.getFirstDayOfWeek();
+        int daysInMonth = calendar.getActualMaximum(java.util.Calendar.DAY_OF_MONTH);
 
-        GregorianCalendar cal = new GregorianCalendar(year, month-1, 1);
-        ui.displayMsg("\n   " + cal.getDisplayName(GregorianCalendar.MONTH, GregorianCalendar.LONG, Locale.ENGLISH) + " " + year);
-        ui.displayMsg("Su Mo Tu We Th Fr Sa");
-
-        int firstDayOfWeek = cal.get(GregorianCalendar.DAY_OF_WEEK);
-
-        // Get the number of days in the month
-        int daysInMonth = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-
-        // Print spaces for the days before the first day of the month
-        for (int i = 1; i < firstDayOfWeek; i++) {
-            ui.displayMsg("   ");
+        ui.displayMsg("Your Workout Calendar");
+        ui.displayMsg("=================================");
+        ui.displayMsg("December, 2024");
+        ui.displayMsg("Sun Mon Tue Wed Thu Fri Sat");
+        for(int i = 1; i < firstDayOfMonth; i++){ //
+            ui.displayMsg("    ");
         }
 
-        // Print the days of the month
-        for (int day = 1; day <= daysInMonth; day++) {
-            System.out.printf("%2d ", day);
+        int dayOfMonth = 1;
+        for(int i = firstDayOfMonth; i <= 7; i++){
+            System.out.printf("%3d ", dayOfMonth++);
+        }
+        ui.displayMsg("");
 
-            // Start a new line after Saturday
-            if ((day + firstDayOfWeek - 1) % 7 == 0) {
-                ui.displayMsg("");
+        while(dayOfMonth <= daysInMonth){
+            for(int i = 1; i <= 7 && dayOfMonth <= daysInMonth; i++){
+                System.out.printf("%3d ", dayOfMonth++);
             }
+            ui.displayMsg("");
         }
-        ui.displayMsg(""); // Add a new line at the end
     }
 
 
@@ -48,6 +72,10 @@ public class Calendar {
     }
 
     public void removeFromCalendar(){
+
+    }
+
+    public void showWorkouts(){
 
     }
 }
