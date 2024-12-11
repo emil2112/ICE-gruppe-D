@@ -23,11 +23,11 @@ public class Application {
 
         if (choice == 1) { // Brugernes valg bliver gemt og tjekkes om hvilket nummer det er.
             createUser();
-            menu = new Menu(currentUser);
+            menu = new Menu(currentUser, connector);
             menu.displayMenu();
         } else if (choice == 2) {
             loadUserData();
-            menu = new Menu(currentUser);
+            menu = new Menu(currentUser, connector);
             menu.displayMenu();
         } else {
             ui.displayMsg("Sorry but that choice is invalid");

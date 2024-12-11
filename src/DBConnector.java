@@ -131,6 +131,21 @@ public class DBConnector {
         return null;
     }
 
+    public boolean hasWorkout(int day) {
+        String sql = "SELECT COUNT(*) FROM CalendarDecember2024 WHERE dayNumber = '" + day + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if(rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
     public List<Exercise> getAllExercises() {
         List<Exercise> exercises = new ArrayList<>();
         String sql = "SELECT ExerciseID, ExerciseName, Sets, Reps, Weight, RestTime, MuscleType FROM Exercise";
