@@ -100,3 +100,5 @@ public class LoginScreenGUI extends JFrame{
         new SignUpScreen(application).setVisible(true);
     }
 }
+
+//1

@@ -59,3 +59,5 @@ public class WorkoutProgramGUI extends JFrame{
         dispose();
     }
 }
+
+//1
