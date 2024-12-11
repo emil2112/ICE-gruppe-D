@@ -7,6 +7,7 @@ public class Application {
     private TextUI ui;
     private DBConnector connector;
     private Menu menu;
+    private ExerciseCreator exerciseCreator;
 
     public Application(String name) {
         this.name = name;
@@ -14,6 +15,7 @@ public class Application {
         connector = new DBConnector();
         var url = "jdbc:sqlite:identifier.sqlite";
         connector.connect(url);
+        exerciseCreator = new ExerciseCreator(connector);
     }
 
     public void startApplication() {
@@ -97,5 +99,9 @@ public class Application {
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public ExerciseCreator getExerciseCreator() {
+        return exerciseCreator;
     }
 }
