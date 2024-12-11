@@ -57,8 +57,8 @@ public class Calendar {
         int dayOfMonth = 1;
         while (dayOfMonth <= daysInMonth) {
             for (int i = 1; i <= 7 && dayOfMonth <= daysInMonth; i++) {
-                if (connector.hasWorkout(dayOfMonth)) {
-                    System.out.printf("%3d* ", dayOfMonth);
+                if (connector.hasWorkout(dayOfMonth, currentUser.getUsername())) {
+                    System.out.printf("%3d*", dayOfMonth);
                 } else {
                     System.out.printf("%3d ", dayOfMonth);
                 }
@@ -70,7 +70,7 @@ public class Calendar {
 
     public void addToCalendar(){
         int day = ui.promptNumeric("Enter the day you want to add a workout program to:");
-        ArrayList<String> workoutNames = connector.getworkoutNames();
+        ArrayList<String> workoutNames = connector.getworkoutNames(currentUser.getUsername());
         int counter = 1;
         for(String e: workoutNames){
             ui.displayMsg(counter + ". " + e);
@@ -81,17 +81,24 @@ public class Calendar {
         String workoutName = workoutNames.get(userChoice-1);
 
         int workoutID = connector.getWorkoutID(workoutName);
-        connector.registerWorkoutDay(workoutID, day);
+        connector.registerWorkoutDay(workoutID, day, currentUser.getUsername());
         calendarMenu();
     }
 
     public void removeFromCalendar(){
         int choice = ui.promptNumeric("Enter the day you want to remove a workout program from:");
-        connector.removeWorkoutDay(choice);
+        connector.removeWorkoutDay(choice, currentUser.getUsername());
         calendarMenu();
     }
 
     public void showWorkouts(){
-        // Man skal kunne vælge en dag fra kalenderen, hvor den så viser program for en given dag (hvis der ligger noget på den).
+        int day = ui.promptNumeric("Enter the day you want to show workouts:");
+        String workout = connector.getWorkoutName(day, currentUser.getUsername());
+        ui.displayMsg(workout);
+        String choice = ui.promptString("Continue? Type yes");
+        if (!choice.equals("yes")) {
+            showWorkouts();
+        }
+        calendarMenu();
     }
 }

@@ -92,8 +92,23 @@ public class DBConnector {
         return 0;
     }
 
-    public void registerWorkoutDay(int workoutID, int day) {
-        String sql = "INSERT INTO CalendarDecember2024 (programs, dayNumber)" +
+    public void createCalendarTable(String username) {
+        String sql = "CREATE TABLE " + username + "CalendarDecember2024(" +
+                "dayID INT AUTO_INCREMENT PRIMARY KEY," +
+                "programs INT," +
+                "dayNumber int," +
+                "Foreign KEY (programs) REFERENCES WorkoutProgram(WorkoutID)" +
+                ")";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void registerWorkoutDay(int workoutID, int day, String username) {
+        String sql = "INSERT INTO " + username + "CalendarDecember2024 (programs, dayNumber)" +
                 "VALUES ('" + workoutID + "', '" + day + "')";
         try {
             Statement stmt = conn.createStatement();
@@ -103,7 +118,7 @@ public class DBConnector {
         }
     }
 
-    public void removeWorkoutDay(int day) {
+    public void removeWorkoutDay(int day, String username) {
         String sql = "DELETE FROM CalendarDecember2024 WHERE dayNumber = '" + day + "'";
 
         try {
@@ -114,8 +129,8 @@ public class DBConnector {
         }
     }
 
-    public ArrayList<String> getworkoutNames() {
-        String sql = "SELECT workoutName FROM CalendarDecember2024";
+    public ArrayList<String> getworkoutNames(String username) {
+        String sql = "SELECT workoutName FROM " + username +"CalendarDecember2024";
         ArrayList<String> workoutNames = new ArrayList<>();
 
         try {
@@ -131,8 +146,8 @@ public class DBConnector {
         return null;
     }
 
-    public boolean hasWorkout(int day) {
-        String sql = "SELECT COUNT(*) FROM CalendarDecember2024 WHERE dayNumber = '" + day + "'";
+    public boolean hasWorkout(int day, String username) {
+        String sql = "SELECT COUNT(*) FROM " + username + "CalendarDecember2024 WHERE dayNumber = '" + day + "'";
 
         try {
             Statement stmt = conn.createStatement();
@@ -144,6 +159,20 @@ public class DBConnector {
             System.out.println(e.getMessage());
         }
         return false;
+    }
+
+    public String getWorkoutName(int day, String username) {
+        String sql = "SELECT WorkoutProgram.workoutName FROM " + username + "CalendarDecember2024 c "+
+                "JOIN WorkoutProgram ON c.programs = WorkoutProgram.workoutID " +
+                "WHERE c.dayNumber = '" + day + "'";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs.getString("workoutName");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public List<Exercise> getAllExercises() {

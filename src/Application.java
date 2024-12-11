@@ -69,6 +69,7 @@ public class Application {
 
         connector.registerUser(username, password, sex, age, height, weight); // Med informationerne bliver der lavet en row med de angivne informationer
         currentUser = new User(username, password, sex, age, height, weight);
+        connector.createCalendarTable(currentUser.getUsername());
     }
 
     public void loadUserData() {
