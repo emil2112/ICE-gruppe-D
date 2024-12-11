@@ -58,7 +58,7 @@ public class Calendar {
         while (dayOfMonth <= daysInMonth) {
             for (int i = 1; i <= 7 && dayOfMonth <= daysInMonth; i++) {
                 if (connector.hasWorkout(dayOfMonth, currentUser.getUsername())) {
-                    System.out.printf("%3d* ", dayOfMonth);
+                    System.out.printf("%3d*", dayOfMonth);
                 } else {
                     System.out.printf("%3d ", dayOfMonth);
                 }
@@ -92,6 +92,13 @@ public class Calendar {
     }
 
     public void showWorkouts(){
-        // Man skal kunne vælge en dag fra kalenderen, hvor den så viser program for en given dag (hvis der ligger noget på den).
+        int day = ui.promptNumeric("Enter the day you want to show workouts:");
+        String workout = connector.getWorkoutName(day, currentUser.getUsername());
+        ui.displayMsg(workout);
+        String choice = ui.promptString("Continue? Type yes");
+        if (!choice.equals("yes")) {
+            showWorkouts();
+        }
+        calendarMenu();
     }
 }

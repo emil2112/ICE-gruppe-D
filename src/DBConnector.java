@@ -161,6 +161,20 @@ public class DBConnector {
         return false;
     }
 
+    public String getWorkoutName(int day, String username) {
+        String sql = "SELECT WorkoutProgram.workoutName FROM " + username + "CalendarDecember2024 c "+
+                "JOIN WorkoutProgram ON c.programs = WorkoutProgram.workoutID " +
+                "WHERE c.dayNumber = '" + day + "'";
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            return rs.getString("workoutName");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
     public List<Exercise> getAllExercises() {
         List<Exercise> exercises = new ArrayList<>();
         String sql = "SELECT ExerciseID, ExerciseName, Sets, Reps, Weight, RestTime, MuscleType FROM Exercise";
