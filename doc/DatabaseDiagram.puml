@@ -1,4 +1,37 @@
 @startuml
 
-entity Exercise
+entity Exercise {
+*ExerciseID<<generated>>
+--
+*ExerciseName: text
+*Sets: integer
+*Reps: integer
+*Weight: float
+*RestTime: float
+*MuscleType: text
+}
+
+entity Users{
+*userID<<generated>>
+--
+*username: text
+*password: text
+*sex: text
+*age: integer
+*height: integer
+*weight: float
+*WorkoutProgram1<<FK>>
+*WorkoutProgram2<<FK>>
+*WorkoutProgram3<<FK>>
+}
+
+entity WorkoutProgram{
+*WorkoutID<<generated>>
+--
+*WorkoutName:text
+}
+
+
+Users ||..|{ WorkoutProgram
+WorkoutProgram }|..|{ Exercise
 @enduml
