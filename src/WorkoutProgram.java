@@ -6,6 +6,7 @@ public class WorkoutProgram {
     private TextUI ui;
     private DBConnector connector;
 
+
     public WorkoutProgram(User currentUser, DBConnector connector){
         this.currentUser = currentUser;
         ui = new TextUI();
@@ -76,3 +77,4 @@ public class WorkoutProgram {
     }
 }
 
+//2
