@@ -130,7 +130,9 @@ public class DBConnector {
     }
 
     public ArrayList<String> getworkoutNames(String username) {
-        String sql = "SELECT workoutName FROM " + username +"CalendarDecember2024";
+        String sql = "SELECT WorkoutProgram.workoutName FROM Users " +
+                "JOIN WorkoutProgram ON Users.WorkoutProgram1 = WorkoutProgram.workoutID " +
+                "WHERE username = '" + username + "'";
         ArrayList<String> workoutNames = new ArrayList<>();
 
         try {
