@@ -25,13 +25,29 @@ entity Users{
 *WorkoutProgram3<<FK>>
 }
 
+entity WorkoutProgramExercises{
+*WorkoutProgramID<<FK>>
+--
+*Exercise1<<FK>>
+*Exercise2<<FK>>
+*Exercise3<<FK>>
+*Exercise4<<FK>>
+*Exercise5<<FK>>
+}
+
 entity WorkoutProgram{
 *WorkoutID<<generated>>
 --
 *WorkoutName:text
+*Exercise1<<FK>>
+*Exercise2<<FK>>
+*Exercise3<<FK>>
+*Exercise4<<FK>>
+*Exercise5<<FK>>
 }
 
 
 Users ||..|{ WorkoutProgram
-WorkoutProgram }|..|{ Exercise
+WorkoutProgramExercises ||..|{ Exercise
+WorkoutProgram }|..|| WorkoutProgramExercises
 @enduml
