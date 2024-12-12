@@ -56,6 +56,7 @@ public class LoginScreenGUI extends JFrame{
 
         //Signup button
         signUpButton = new JButton("Sign up");
+        signUpButton.setForeground(Color.RED);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -81,7 +82,8 @@ public class LoginScreenGUI extends JFrame{
 
     }
 
-    private void handleLogin(){
+    //Methods
+    void handleLogin(){
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
@@ -97,7 +99,7 @@ public class LoginScreenGUI extends JFrame{
 
     private void handleSignUp() {
         dispose();
-        new SignUpScreen(application).setVisible(true);
+        new SignUpScreenGUI(application).setVisible(true);
     }
 }
 
