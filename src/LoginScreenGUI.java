@@ -83,7 +83,7 @@ public class LoginScreenGUI extends JFrame{
     }
 
     //Methods
-    void handleLogin(){
+   private void handleLogin(){
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
