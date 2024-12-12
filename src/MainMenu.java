@@ -43,10 +43,10 @@ public class MainMenu extends JFrame {
     private void handleWorkout(){
         JOptionPane.showMessageDialog(this,"Workout clicked");
     }
-    private void handleWorkoutProgram(){
-        JOptionPane.showMessageDialog(this,"Workout Program clicked");
-        WorkoutProgram workoutProgram = new WorkoutProgram(application.getCurrentUser(), connector);
-        workoutProgram.displayWorkoutProgramMenu();
+    public void handleWorkoutProgram(){
+        WorkoutProgramGUI workoutProgramGUI = new WorkoutProgramGUI(application);
+        workoutProgramGUI.setVisible(true);
+        dispose();
     }
     private void handleCalendar(){
         JOptionPane.showMessageDialog(this,"Calendar clicked");
@@ -59,3 +59,5 @@ public class MainMenu extends JFrame {
     }
 
 }
+
+//2

@@ -206,6 +206,8 @@ public class DBConnector {
     }
 
 
+
+
     /*
     public ArrayList<String> selectPlayers(){
         // initialize a List to return the selected data as string elements
@@ -257,3 +259,5 @@ public class DBConnector {
 */
 
 }
+
+//2
