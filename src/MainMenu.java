@@ -43,7 +43,7 @@ public class MainMenu extends JFrame {
     private void handleWorkout(){
         JOptionPane.showMessageDialog(this,"Workout clicked");
     }
-    private void handleWorkoutProgram(){
+    public void handleWorkoutProgram(){
        WorkoutProgramGUI workoutProgramGUI = new WorkoutProgramGUI(application);
        workoutProgramGUI.setVisible(true);
        dispose();

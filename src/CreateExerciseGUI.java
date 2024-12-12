@@ -7,8 +7,10 @@ import java.sql.SQLException;
 public class CreateExerciseGUI extends JFrame {
     private Application application;
     private JTextField nameField, setsField, repsField, weightField, restTimeField, muscleGroupField, idField;
-    private JButton saveButton;
+    private JButton saveButton, goBack;
     private ExerciseCreator exerciseCreator;
+
+    MainMenu mainMenu = new MainMenu(application);
 
     public CreateExerciseGUI(Application application) {
         this.application = application;
@@ -117,10 +119,23 @@ public class CreateExerciseGUI extends JFrame {
         gbc.gridwidth = 2;
         add(saveButton, gbc);
 
+
+        goBack = new JButton("Go Back");
+        gbc.gridx = 0;
+        gbc.gridy = 16;
+        add(goBack, gbc);
+
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleSaveExercise();
+            }
+        });
+
+        goBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenu.handleWorkoutProgram();
             }
         });
 

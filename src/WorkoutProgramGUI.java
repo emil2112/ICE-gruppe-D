@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 public class WorkoutProgramGUI extends JFrame{
     private Application application;
+    private MainMenu mainMenu = new MainMenu(application);
+    private JButton goBack;
 
     public WorkoutProgramGUI(Application application){
         this.application = application;
@@ -35,6 +37,12 @@ public class WorkoutProgramGUI extends JFrame{
         gbc.gridwidth = 2;
         add(createExerciseButton,gbc);
 
+
+        goBack = new JButton("Go Back");
+        gbc.gridx = 0;
+        gbc.gridy = 16;
+        add(goBack, gbc);
+
         createWorkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -46,6 +54,13 @@ public class WorkoutProgramGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 handleCreateExercise();
+            }
+        });
+
+        goBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MainMenu(application).setVisible(true);
             }
         });
 
