@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class WorkoutProgramGUI extends JFrame{
     private Application application;
-    private MainMenu mainMenu = new MainMenu(application);
+    private MainMenuGUI mainMenu = new MainMenuGUI(application);
     private JButton goBack;
 
     public WorkoutProgramGUI(Application application){
@@ -64,7 +64,7 @@ public class WorkoutProgramGUI extends JFrame{
         goBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MainMenu(application).setVisible(true);
+                new MainMenuGUI(application).setVisible(true);
             }
         });
 

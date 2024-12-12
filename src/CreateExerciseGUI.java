@@ -10,7 +10,7 @@ public class CreateExerciseGUI extends JFrame {
     private JButton saveButton, goBack;
     private ExerciseCreator exerciseCreator;
 
-    MainMenu mainMenu = new MainMenu(application);
+    MainMenuGUI mainMenu = new MainMenuGUI(application);
 
     public CreateExerciseGUI(Application application) {
         this.application = application;
