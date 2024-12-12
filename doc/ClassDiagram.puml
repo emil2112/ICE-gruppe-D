@@ -141,4 +141,7 @@ Menu *-- Calendar
 Menu *-- Settings
 WorkoutProgram *-- Exercise
 Exercise *-- ExerciseCreator
+User *-- WorkoutProgram
+User *-- Calendar
+Workout *-- WorkoutProgram
 @enduml
