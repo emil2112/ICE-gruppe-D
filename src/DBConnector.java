@@ -119,7 +119,7 @@ public class DBConnector {
     }
 
     public void removeWorkoutDay(int day, String username) {
-        String sql = "DELETE FROM CalendarDecember2024 WHERE dayNumber = '" + day + "'";
+        String sql = "DELETE FROM " + username + "CalendarDecember2024 WHERE dayNumber = '" + day + "'";
 
         try {
             Statement stmt = conn.createStatement();
@@ -130,22 +130,22 @@ public class DBConnector {
     }
 
     public ArrayList<String> getworkoutNames(String username) {
-        String sql = "SELECT WorkoutProgram.workoutName FROM Users " +
-                "JOIN WorkoutProgram ON Users.WorkoutProgram1 = WorkoutProgram.workoutID " +
-                "WHERE username = '" + username + "'";
         ArrayList<String> workoutNames = new ArrayList<>();
-
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-            while(rs.next()) {
-                workoutNames.add(rs.getString("workoutName"));
+        for(int i = 1; i <= 3; i++) {
+            String sql = "SELECT WorkoutProgram.workoutName FROM Users " +
+                    "JOIN WorkoutProgram ON Users.WorkoutProgram" + i + " = WorkoutProgram.workoutID " +
+                    "WHERE username = '" + username + "'";
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                while (rs.next()) {
+                    workoutNames.add(rs.getString("workoutName"));
+                }
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
             }
-            return workoutNames;
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
-        return null;
+        return workoutNames;
     }
 
     public boolean hasWorkout(int day, String username) {
