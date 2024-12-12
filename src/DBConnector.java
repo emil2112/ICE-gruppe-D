@@ -207,8 +207,25 @@ public class DBConnector {
         return conn;
     }
 
+    public ArrayList<String> displayPrograms(String username){
+        ArrayList<String> workoutNames = new ArrayList<>();
+        for(int i = 1; i <= 3; i++) {
+            String sql = "SELECT WorkoutProgram.workoutName FROM Users " +
+                    "JOIN WorkoutProgram ON Users.WorkoutProgram" + i + " = WorkoutProgram.workoutID " +
+                    "WHERE username = '" + username + "'";
 
-
+            try{
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                while(rs.next()) {
+                    workoutNames.add(rs.getString("workoutName"));
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return workoutNames;
+    }
 
     /*
     public ArrayList<String> selectPlayers(){
