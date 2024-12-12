@@ -3,14 +3,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SignUpScreen extends JFrame {
+public class SignUpScreenGUI extends JFrame {
     private JTextField usernameField, ageField, heightField, weightField;
     private JPasswordField passwordField;
     private JComboBox<String> sexBox;
-    private JButton signUpButton;
+    private JButton signUpButton, goBack;
     private Application application;
+    private LoginScreenGUI loginScreenGUI;
 
-    public SignUpScreen(Application application){
+    public SignUpScreenGUI(Application application){
         this.application = application;
         setTitle("Sign up");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,6 +22,7 @@ public class SignUpScreen extends JFrame {
         gbc.insets = new Insets(10,10,10,10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        //Username
         JLabel usernameLabel = new JLabel("Username:");
         gbc.gridx = 0;
         gbc.gridy = 0;
@@ -31,6 +33,7 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 0;
         add(usernameField, gbc);
 
+        //Password
         JLabel passwordLabel = new JLabel("Password:");
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -41,16 +44,18 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 1;
         add(passwordField, gbc);
 
+        //Sex
         JLabel sexLabel = new JLabel("Sex:");
         gbc.gridx = 0;
         gbc.gridy = 2;
         add(sexLabel, gbc);
 
-        sexBox = new JComboBox<>(new String[]{"Male","Female"});
+        sexBox = new JComboBox<>(new String[]{"Male","Female","Apache"});
         gbc.gridx = 1;
         gbc.gridy = 2;
         add(sexBox,gbc);
 
+        //Age
         JLabel ageLabel = new JLabel("Age:");
         gbc.gridx = 0;
         gbc.gridy = 3;
@@ -61,6 +66,7 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 3;
         add(ageField, gbc);
 
+        //Height
         JLabel heightLabel = new JLabel("Height (cm):");
         gbc.gridx = 0;
         gbc.gridy = 4;
@@ -71,6 +77,7 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 4;
         add(heightField, gbc);
 
+        //Weight
         JLabel weightLabel = new JLabel("Weight (kg):");
         gbc.gridx = 0;
         gbc.gridy = 5;
@@ -81,20 +88,41 @@ public class SignUpScreen extends JFrame {
         gbc.gridy = 5;
         add(weightField, gbc);
 
+        //Signup
         signUpButton = new JButton("Sign Up");
         gbc.gridx = 0;
         gbc.gridy = 6;
         gbc.gridwidth = 2;
         add(signUpButton, gbc);
 
+        //Go back
+        goBack = new JButton("Go back");
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        gbc.gridwidth = 2;
+        add(goBack,gbc);
+
+
+        //Action listeners
         signUpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 handleSignUp();
             }
         });
+
+        goBack.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new LoginScreenGUI(application).setVisible(true);
+            }
+        });
+
         setLocationRelativeTo(null);
     }
+
+    //Methods
     private void handleSignUp(){
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
