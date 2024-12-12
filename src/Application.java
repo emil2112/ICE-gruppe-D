@@ -94,10 +94,6 @@ public class Application {
         return connector;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
