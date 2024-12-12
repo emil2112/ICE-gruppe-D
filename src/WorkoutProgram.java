@@ -10,8 +10,7 @@ public class WorkoutProgram {
         this.currentUser = currentUser;
         ui = new TextUI();
         this.connector = connector;
-        var url = "jdbc:sqlite:identifier.sqlite";
-        connector.connect(url);
+
     }
     //Collection<Exercise> exercises;
     public void displayWorkoutProgramMenu(){
