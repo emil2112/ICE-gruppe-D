@@ -56,6 +56,7 @@ public class LoginScreenGUI extends JFrame{
 
         //Signup button
         signUpButton = new JButton("Sign up");
+        signUpButton.setForeground(Color.RED);
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.gridwidth = 2;
@@ -81,7 +82,8 @@ public class LoginScreenGUI extends JFrame{
 
     }
 
-    private void handleLogin(){
+    //Methods
+   private void handleLogin(){
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
 
@@ -89,7 +91,7 @@ public class LoginScreenGUI extends JFrame{
             application.setCurrentUser(application.getConnector().getUserData(username));
             JOptionPane.showMessageDialog(this, "Login succesful!");
             dispose();
-            new MainMenu(application).setVisible(true);
+            new MainMenuGUI(application).setVisible(true);
         }else{
             JOptionPane.showMessageDialog(this,"Invalid Username or Password");
         }
@@ -97,6 +99,8 @@ public class LoginScreenGUI extends JFrame{
 
     private void handleSignUp() {
         dispose();
-        new SignUpScreen(application).setVisible(true);
+        new SignUpScreenGUI(application).setVisible(true);
     }
 }
+
+//2

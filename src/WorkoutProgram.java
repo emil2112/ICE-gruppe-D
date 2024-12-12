@@ -6,14 +6,14 @@ public class WorkoutProgram {
     private TextUI ui;
     private DBConnector connector;
 
+
     public WorkoutProgram(User currentUser, DBConnector connector){
         this.currentUser = currentUser;
         ui = new TextUI();
         this.connector = connector;
-        var url = "jdbc:sqlite:identifier.sqlite";
-        connector.connect(url);
+
     }
-    //Collection<Exercise> exercises;
+
     public void displayWorkoutProgramMenu(){
         ui.displayMsg("        Workout tab        \n========================= \n1. Create new workout \n2. Your Workout Programs");
         int choice = ui.promptNumeric("Enter number of menu:");
@@ -76,3 +76,4 @@ public class WorkoutProgram {
     }
 }
 
+//2

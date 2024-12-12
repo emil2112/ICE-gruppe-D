@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class MainMenu extends JFrame {
+public class MainMenuGUI extends JFrame {
     private Application application;
     private DBConnector connector;
 
-    public MainMenu(Application application){
+    public MainMenuGUI(Application application){
         this.application = application;
         this.connector = connector;
         setTitle("Main Menu");
@@ -43,10 +43,10 @@ public class MainMenu extends JFrame {
     private void handleWorkout(){
         JOptionPane.showMessageDialog(this,"Workout clicked");
     }
-    private void handleWorkoutProgram(){
-        JOptionPane.showMessageDialog(this,"Workout Program clicked");
-        WorkoutProgram workoutProgram = new WorkoutProgram(application.getCurrentUser(), connector);
-        workoutProgram.displayWorkoutProgramMenu();
+    public void handleWorkoutProgram(){
+        WorkoutProgramGUI workoutProgramGUI = new WorkoutProgramGUI(application);
+        workoutProgramGUI.setVisible(true);
+        dispose();
     }
     private void handleCalendar(){
         JOptionPane.showMessageDialog(this,"Calendar clicked");
@@ -59,3 +59,5 @@ public class MainMenu extends JFrame {
     }
 
 }
+
+//2
