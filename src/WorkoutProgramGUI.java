@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 public class WorkoutProgramGUI extends JFrame{
     private Application application;
-    private MainMenu mainMenu = new MainMenu(application);
+    private MainMenuGUI mainMenu = new MainMenuGUI(application);
     private JButton goBack;
 
     public WorkoutProgramGUI(Application application){
@@ -19,30 +19,34 @@ public class WorkoutProgramGUI extends JFrame{
         gbc.insets = new Insets(10,10,10,10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
+        //Title
         JLabel titleLabel = new JLabel("Workout Program",SwingConstants.CENTER);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
         add(titleLabel,gbc);
 
+        //Workout
         JButton createWorkoutButton = new JButton("Create Workout");
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.gridwidth = 2;
         add(createWorkoutButton,gbc);
 
+        //Exercise
         JButton createExerciseButton = new JButton("Create Exercise");
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.gridwidth = 2;
         add(createExerciseButton,gbc);
 
-
+        //Go back
         goBack = new JButton("Go Back");
         gbc.gridx = 0;
         gbc.gridy = 16;
         add(goBack, gbc);
 
+        //Methods
         createWorkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -60,7 +64,7 @@ public class WorkoutProgramGUI extends JFrame{
         goBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new MainMenu(application).setVisible(true);
+                new MainMenuGUI(application).setVisible(true);
             }
         });
 
