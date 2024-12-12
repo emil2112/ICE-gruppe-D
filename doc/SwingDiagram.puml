@@ -1,0 +1,58 @@
+@startuml
+!pragma layout smetana
+class CreateExerciseGUI {
+-Application application
+-JTextField nameField, setsField, repsField, weightField, restTimeField, muscleGroupField, idField
+-JButton saveButton, goBack
+-ExerciseCreator exerciseCreator
++CreateExerciseGUI(Application application)
+-void handleSaveExercise()
+}
+
+class LoginScreenGUI {
+-JTextField usernameField
+-JPasswordField passwordField
+-JButton loginButton, signUpButton
+-Application application
++LoginScreenGUI(Application app)
+-void handleLogin()
+-void handleSignUp()
+}
+
+class MainMenuGUI {
+-Application application
+-DBConnector connector
++MainMenuGUI(Application application)
+-void handleWorkout()
++void handleWorkoutProgram()
+-void handleCalendar()
+-void handleStats()
+-void handleSettings()
+}
+
+class SignUpScreenGUI {
+-JTextField usernameField, ageField, heightField, weightField
+-JPasswordField passwordField
+-JComboBox<String> sexBox
+-JButton signUpButton, goBack
+-Application application
+-LoginScreenGUI loginScreenGUI
++SignUpScreenGUI(Application application)
+-void handleSignUp()
+}
+
+class WorkoutProgramGUI {
+-Application application
+-MainMenuGUI mainMenu = new MainMenuGUI(application)
+-JButton goBack
++WorkoutProgramGUI(Application application)
+-void handleCreateWorkout()
+-void handleCreateExercise()
+}
+
+LoginScreenGUI *-- MainMenuGUI
+LoginScreenGUI *-- SignUpScreenGUI
+SignUpScreenGUI *-- MainMenuGUI
+MainMenuGUI *-- WorkoutProgramGUI
+WorkoutProgramGUI *-- CreateExerciseGUI
+@enduml

@@ -5,7 +5,6 @@ public class User {
     private int age;
     private int height;
     private float weight;
-    //Collections<WorkoutPrograms> workoutPrograms
 
     public User(String username, String password, String sex, int age, int height, float weight) {
         this.username = username;

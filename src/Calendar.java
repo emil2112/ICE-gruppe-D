@@ -95,7 +95,7 @@ public class Calendar {
         int day = ui.promptNumeric("Enter the day you want to show workouts:");
         String workout = connector.getWorkoutName(day, currentUser.getUsername());
         ui.displayMsg(workout);
-        String choice = ui.promptString("Continue? Type yes");
+        String choice = ui.promptText("Continue? Type yes");
         if (!choice.equals("yes")) {
             showWorkouts();
         }

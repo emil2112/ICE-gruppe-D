@@ -13,7 +13,7 @@ public class WorkoutProgram {
         this.connector = connector;
 
     }
-    //Collection<Exercise> exercises;
+
     public void displayWorkoutProgramMenu(){
         ui.displayMsg("        Workout tab        \n========================= \n1. Create new workout \n2. Your Workout Programs");
         int choice = ui.promptNumeric("Enter number of menu:");

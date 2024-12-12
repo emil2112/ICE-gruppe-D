@@ -9,14 +9,22 @@ database Database{
 }
 
 package "util"{
-class DBconnector{
+class DBConnector{
 -Connection conn
 +void connect(String url)
 +void registerUser(String username, String password, String sex, int age, int height, float weight)
 +boolean userExists(String username)
 +boolean validLogin(String username, String password)
 +User getUserData(String username)
-
++int getWorkoutID(String name)
++void createCalendarTable(String username)
++void registerWorkoutDay(int workoutID, int day, String username)
++void removeWorkoutDay(int day, String username)
++ArrayList<String> getworkoutNames(String username)
++boolean hasWorkout(int day, String username)
++String getWorkoutName(int day, String username)
++List<Exercise> getAllExercises()
++Connection getConnection()
 }
 
 class TextUI{
@@ -31,38 +39,60 @@ class Application{
 -String name
 -User currentUser
 -TextUI ui
--DBconnector connector
+-DBConnector connector
 -Menu menu
+-ExerciseCreator exerciseCreator
 
 +Application(String name)
 +void startApplication()
 +void createUser()
-+void loadUser()
++void loadUserData()
++DBConnector getConnector()
++void setCurrentUser(User currentUser)
++ExerciseCreator getExerciseCreator()
 }
 
 class User{
 -String username
 -String password
+-String sex
+-int age
 -int height
 -float weight
--int age
--String sex
+
 +user(String userName, String password, String sex, int age, float height, float weight)
--Collection<WorkoutProgram> workoutPrograms
++String getUsername()
++String getPassword()
 }
 
 class Menu{
+-User currentUser
+-TextUI ui
+-WorkoutProgram workoutProgram
+-DBConnector connector
++Menu(User currentUser, DBConnector connector)
 +void displayMenu()
 }
 
 class Calendar{
+-GregorianCalendar calendar
+-User currentUser
+-TextUI ui
+-DBConnector connector
++Calendar(User currentUser, DBConnector connector)
++void calendarMenu()
 +void displayCalendar()
 +void addToCalendar()
 +void removeFromCalendar()
++void showWorkouts()
 }
 
 class WorkoutProgram{
--Collection<Exercise> exercises
+-User currentUser
+-TextUI ui
+-DBConnector connector
++WorkoutProgram(User currentUser, DBConnector connector)
++void displayWorkoutProgramMenu()
 +void createWorkoutProgram()
 }
 
@@ -76,18 +106,29 @@ class Stats{
 }
 
 class Exercise{
+-int exerciseID
+-String exerciseName
 -int sets
 -int reps
 -float weight
 -float restTime
 -String muscleType
-+Exercise(int sets, int reps, float weight, float restTime, String muscleType)
++Exercise(int exerciseID, String exerciseName, int sets, int reps, float weight, float restTime, String muscleType)
++String getExerciseName()
++int getExerciseID()
++int getSets()
++int getReps()
++float getWeight()
++float getRestTime()
++String getMuscleType()
 }
 
 class ExerciseCreator{
-+void createExercise()
-+void editExercise()
-+void deleteExercise()
+-DBConnector connector
++ExerciseCreator(DBConnector connector)
++addExercise(Exercise exercise)
++void deleteExercise(int exerciseID)
++void editExercise(Exercise updatedExercise)
 }
 
 Main *-- Application
@@ -100,4 +141,7 @@ Menu *-- Calendar
 Menu *-- Settings
 WorkoutProgram *-- Exercise
 Exercise *-- ExerciseCreator
+User *-- WorkoutProgram
+User *-- Calendar
+Workout *-- WorkoutProgram
 @enduml
