@@ -101,6 +101,10 @@ public class Application {
     public ExerciseCreator getExerciseCreator() {
         return exerciseCreator;
     }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
 }
 
 //2
