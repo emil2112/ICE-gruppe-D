@@ -202,6 +202,34 @@ public class DBConnector {
         return exercises;
     }
 
+    public List<Exercise> getProgramExercises(String workoutName){
+        List<Exercise> exercises = new ArrayList<>();
+        for(int i = 1; i <= 3; i++) {
+            String sql = "SELECT Exercise.ExerciseName, Exercise.Sets, Exercise.Reps, Exercise.Weight, Exercise.RestTime, Exercise.MuscleType " +
+                    "FROM ExerciseID"+ i +"JOIN Exercise ON WorkoutProgram.ExerciseID"+i+" = ";
+
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+
+                while (rs.next()) {
+                    int exerciseID = rs.getInt("ExerciseID");
+                    String exerciseName = rs.getString("ExerciseName");
+                    int sets = rs.getInt("Sets");
+                    int reps = rs.getInt("Reps");
+                    float weight = rs.getFloat("Weight");
+                    float restTime = rs.getFloat("RestTime");
+                    String muscleType = rs.getString("MuscleType");
+
+                    exercises.add(new Exercise(exerciseID, exerciseName, sets, reps, weight, restTime, muscleType));
+                }
+            } catch (SQLException e) {
+                System.out.println("Error retrieving exercises: " + e.getMessage());
+            }
+        }
+        return exercises;
+    }
+
     // Method to get the current connection
     public Connection getConnection() {
         return conn;
@@ -226,6 +254,7 @@ public class DBConnector {
         }
         return workoutNames;
     }
+
 
     /*
     public ArrayList<String> selectPlayers(){
