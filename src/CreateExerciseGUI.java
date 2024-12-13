@@ -10,7 +10,7 @@ public class CreateExerciseGUI extends JFrame {
     private JButton saveButton, goBack;
     private ExerciseCreator exerciseCreator;
 
-    MainMenu mainMenu = new MainMenu(application);
+    MainMenuGUI mainMenu = new MainMenuGUI(application);
 
     public CreateExerciseGUI(Application application) {
         this.application = application;
@@ -112,22 +112,25 @@ public class CreateExerciseGUI extends JFrame {
         gbc.gridy = 14;
         add(idField,gbc);
 
-
+        //Save
         saveButton = new JButton("Save Exercise");
         gbc.gridx = 0;
         gbc.gridy = 15;
         gbc.gridwidth = 2;
         add(saveButton, gbc);
 
-
+        //Back
         goBack = new JButton("Go Back");
         gbc.gridx = 0;
         gbc.gridy = 16;
         add(goBack, gbc);
 
+
+        //Action listeners
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 handleSaveExercise();
             }
         });
@@ -135,6 +138,7 @@ public class CreateExerciseGUI extends JFrame {
         goBack.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 mainMenu.handleWorkoutProgram();
             }
         });
@@ -142,6 +146,7 @@ public class CreateExerciseGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    //Methods
     private void handleSaveExercise() {
         String name = nameField.getText();
         int sets = Integer.parseInt(setsField.getText());
@@ -149,11 +154,10 @@ public class CreateExerciseGUI extends JFrame {
         float weight = Float.parseFloat(weightField.getText());
         float rest = Float.parseFloat(restTimeField.getText());
         String muscle = muscleGroupField.getText();
-        int id = Integer.parseInt(idField.getText());
 
         if (!name.isEmpty()) {
             try {
-                Exercise exercise = new Exercise(id, name, sets, reps, weight, rest, muscle);
+                Exercise exercise = new Exercise(name, sets, reps, weight, rest, muscle);
 
                 application.getExerciseCreator().addExercise(exercise);
 

@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class MainMenu extends JFrame {
+public class MainMenuGUI extends JFrame {
     private Application application;
     private DBConnector connector;
 
-    public MainMenu(Application application){
+    public MainMenuGUI(Application application){
         this.application = application;
         this.connector = connector;
         setTitle("Main Menu");

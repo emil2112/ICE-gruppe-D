@@ -70,6 +70,13 @@ public class Calendar {
 
     public void addToCalendar(){
         int day = ui.promptNumeric("Enter the day you want to add a workout program to:");
+        boolean hasWorkout = connector.hasWorkout(day, currentUser.getUsername());
+        if(hasWorkout){
+            ui.displayMsg("You have already added a workout program for that day.");
+            calendarMenu();
+            return;
+        }
+
         ArrayList<String> workoutNames = connector.getworkoutNames(currentUser.getUsername());
         int counter = 1;
         for(String e: workoutNames){
@@ -95,7 +102,7 @@ public class Calendar {
         int day = ui.promptNumeric("Enter the day you want to show workouts:");
         String workout = connector.getWorkoutName(day, currentUser.getUsername());
         ui.displayMsg(workout);
-        String choice = ui.promptString("Continue? Type yes");
+        String choice = ui.promptText("Continue? Type yes");
         if (!choice.equals("yes")) {
             showWorkouts();
         }
