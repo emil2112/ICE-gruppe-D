@@ -32,6 +32,7 @@ public class Menu {
             settings.settingsMenu();
             System.out.println("Entering settings...");
         } else if (choice == 6){
+            ui.displayMsg("Exiting program...");
             System.exit(0);
         } else {
             System.out.println("Invalid choice. Please enter a number between 1 and 5.");
