@@ -154,11 +154,10 @@ public class CreateExerciseGUI extends JFrame {
         float weight = Float.parseFloat(weightField.getText());
         float rest = Float.parseFloat(restTimeField.getText());
         String muscle = muscleGroupField.getText();
-        int id = Integer.parseInt(idField.getText());
 
         if (!name.isEmpty()) {
             try {
-                Exercise exercise = new Exercise(id, name, sets, reps, weight, rest, muscle);
+                Exercise exercise = new Exercise(name, sets, reps, weight, rest, muscle);
 
                 application.getExerciseCreator().addExercise(exercise);
 
