@@ -3,6 +3,7 @@ public class Menu {
     private TextUI ui;
     private WorkoutProgram workoutProgram;
     private DBConnector connector;
+    private Workout workout;
 
     public Menu(User currentUser, DBConnector connector) {
         this.currentUser = currentUser;
@@ -16,7 +17,9 @@ public class Menu {
         int choice = ui.promptNumeric("Enter number of menu:");
 
         if (choice == 1){
-            System.out.println("Entering workout tab...");
+            ui.displayMsg("Entering Workout menu...");
+            this.workout = new Workout(connector, currentUser);
+            workout.startWorkout();
         } else if (choice == 2){
             System.out.println("Entering Workout program tab...");
             this.workoutProgram = new WorkoutProgram(currentUser, connector);

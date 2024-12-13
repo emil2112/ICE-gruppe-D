@@ -205,14 +205,13 @@ public class DBConnector {
         List<Exercise> exercises = new ArrayList<>();
         for(int i = 1; i <= 3; i++) {
             String sql = "SELECT Exercise.ExerciseName, Exercise.Sets, Exercise.Reps, Exercise.Weight, Exercise.RestTime, Exercise.MuscleType " +
-                    "FROM ExerciseID"+ i +"JOIN Exercise ON WorkoutProgram.ExerciseID"+i+" = ";
+                    "FROM WorkoutProgram JOIN Exercise ON WorkoutProgram.ExerciseID"+i+" = Exercise.ExerciseID WHERE WorkoutName = '"+workoutName+"'";
 
             try {
                 Statement stmt = conn.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
 
                 while (rs.next()) {
-                    int exerciseID = rs.getInt("ExerciseID");
                     String exerciseName = rs.getString("ExerciseName");
                     int sets = rs.getInt("Sets");
                     int reps = rs.getInt("Reps");
@@ -220,7 +219,7 @@ public class DBConnector {
                     float restTime = rs.getFloat("RestTime");
                     String muscleType = rs.getString("MuscleType");
 
-                    exercises.add(new Exercise(exerciseID, exerciseName, sets, reps, weight, restTime, muscleType));
+                    exercises.add(new Exercise(exerciseName, sets, reps, weight, restTime, muscleType));
                 }
             } catch (SQLException e) {
                 System.out.println("Error retrieving exercises: " + e.getMessage());
@@ -254,8 +253,7 @@ public class DBConnector {
         return workoutNames;
     }
 
-<<<<<<< HEAD
-=======
+
     public void setNewUsername(String newUsername, String oldUsername) {
         String sql = "UPDATE Users SET username = '" + newUsername + "' WHERE username = '" + oldUsername + "'";
 
@@ -288,7 +286,6 @@ public class DBConnector {
             System.out.println(e.getMessage());
         }
     }
->>>>>>> main
 
     /*
     public ArrayList<String> selectPlayers(){

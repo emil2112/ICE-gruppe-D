@@ -44,7 +44,7 @@ public class ExerciseCreator {
         }
     }
 
-    public void editExercise(Exercise updatedExercise) throws SQLException {
+    /*public void editExercise(Exercise updatedExercise) throws SQLException {
         String sql = "UPDATE Exercise SET exerciseName = ?, sets = ?, reps = ?, weight = ?, restTime = ?, muscleType = ? WHERE exerciseID = ?";
 
         try (Connection connection = dbConnector.getConnection();
@@ -67,8 +67,7 @@ public class ExerciseCreator {
         } catch (SQLException e) {
             System.out.println("Error updating exercise: " + e.getMessage());
         }
-    }
-
+    }*/
 
 
     /*
