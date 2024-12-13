@@ -1,5 +1,4 @@
 public class Exercise {
-    int exerciseID;
     String exerciseName;
     int sets;
     int reps;
@@ -7,8 +6,7 @@ public class Exercise {
     float restTime;
     String muscleType;
 
-    public Exercise(int exerciseID, String exerciseName, int sets, int reps, float weight, float restTime, String muscleType){
-        this.exerciseID = exerciseID;
+    public Exercise(String exerciseName, int sets, int reps, float weight, float restTime, String muscleType){
         this.exerciseName = exerciseName;
         this.sets = sets;
         this.reps = reps;
