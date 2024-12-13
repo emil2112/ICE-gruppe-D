@@ -12,7 +12,7 @@ public class Menu {
     }
 
     public void displayMenu() {
-        ui.displayMsg("        Main Menu        \n========================= \n1. Workout \n2. Workout Program \n3. Calendar \n4. Stats\n5. Settings");
+        ui.displayMsg("        Main Menu        \n========================= \n1. Workout \n2. Workout Program \n3. Calendar \n4. Stats\n5. Settings \n6. Exit");
         int choice = ui.promptNumeric("Enter number of menu:");
 
         if (choice == 1){
@@ -27,8 +27,12 @@ public class Menu {
             calender.calendarMenu();
         } else if (choice == 4){
             System.out.println("Entering stats page...");
-        } else if (choice == 5){
+        } else if (choice == 5) {
+            Settings settings = new Settings(currentUser, connector);
+            settings.settingsMenu();
             System.out.println("Entering settings...");
+        } else if (choice == 6){
+            System.exit(0);
         } else {
             System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             displayMenu();
