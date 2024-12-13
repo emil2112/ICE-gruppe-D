@@ -17,9 +17,6 @@ public class Exercise {
     public String getExerciseName(){
         return exerciseName;
     }
-    public int getExerciseID(){
-        return exerciseID;
-    }
 
     public int getSets() {
         return sets;

@@ -48,13 +48,8 @@ public class WorkoutProgram {
                 break;
             }
 
-            Exercise selectedExercise = null;
-            for (Exercise exercise : exercises) {
-                if (exercise.getExerciseID() == exerciseId) {
-                    selectedExercise = exercise;
-                    break;
-                }
-            }
+            Exercise selectedExercise = selectedExercises.get(exerciseId-1);
+
 
             if (selectedExercise != null) {
                 selectedExercises.add(selectedExercise);
