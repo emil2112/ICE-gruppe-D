@@ -227,6 +227,39 @@ public class DBConnector {
         return workoutNames;
     }
 
+    public void setNewUsername(String newUsername, String oldUsername) {
+        String sql = "UPDATE Users SET username = '" + newUsername + "' WHERE username = '" + oldUsername + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void setNewPassword(String newPassword, String username) {
+        String sql = "UPDATE Users Set password = '" + newPassword + "' WHERE username = '" + username + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void changeCalendarTableName(String newUsername, String oldUsername) {
+        String sql = "ALTER TABLE " + oldUsername + "CalendarDecember2024 RENAME TO " + newUsername +"CalendarDecember2024";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     /*
     public ArrayList<String> selectPlayers(){
         // initialize a List to return the selected data as string elements
