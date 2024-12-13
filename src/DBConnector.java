@@ -179,14 +179,13 @@ public class DBConnector {
 
     public List<Exercise> getAllExercises() {
         List<Exercise> exercises = new ArrayList<>();
-        String sql = "SELECT ExerciseID, ExerciseName, Sets, Reps, Weight, RestTime, MuscleType FROM Exercise";
+        String sql = "SELECT ExerciseName, Sets, Reps, Weight, RestTime, MuscleType FROM Exercise";
 
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                int exerciseID = rs.getInt("ExerciseID");
                 String exerciseName = rs.getString("ExerciseName");
                 int sets = rs.getInt("Sets");
                 int reps = rs.getInt("Reps");
@@ -194,7 +193,7 @@ public class DBConnector {
                 float restTime = rs.getFloat("RestTime");
                 String muscleType = rs.getString("MuscleType");
 
-                exercises.add(new Exercise(exerciseID, exerciseName, sets, reps, weight, restTime, muscleType));
+                exercises.add(new Exercise(exerciseName, sets, reps, weight, restTime, muscleType));
             }
         } catch (SQLException e) {
             System.out.println("Error retrieving exercises: " + e.getMessage());
@@ -225,6 +224,39 @@ public class DBConnector {
             }
         }
         return workoutNames;
+    }
+
+    public void setNewUsername(String newUsername, String oldUsername) {
+        String sql = "UPDATE Users SET username = '" + newUsername + "' WHERE username = '" + oldUsername + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void setNewPassword(String newPassword, String username) {
+        String sql = "UPDATE Users Set password = '" + newPassword + "' WHERE username = '" + username + "'";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void changeCalendarTableName(String newUsername, String oldUsername) {
+        String sql = "ALTER TABLE " + oldUsername + "CalendarDecember2024 RENAME TO " + newUsername +"CalendarDecember2024";
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /*
