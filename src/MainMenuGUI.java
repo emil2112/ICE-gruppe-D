@@ -41,7 +41,9 @@ public class MainMenuGUI extends JFrame {
         setLocationRelativeTo(null);
     }
     private void handleWorkout(){
-        JOptionPane.showMessageDialog(this,"Workout clicked");
+        WorkoutGUI workoutGUI = new WorkoutGUI(application);
+        workoutGUI.setVisible(true);
+        dispose();
     }
     public void handleWorkoutProgram(){
         WorkoutProgramGUI workoutProgramGUI = new WorkoutProgramGUI(application);
