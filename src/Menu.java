@@ -34,6 +34,9 @@ public class Menu {
                 break;
             case 4:
                 System.out.println("Entering stats page...");
+                ui.displayMsg("Under Development");
+                ui.promptNumeric("Press 1 to go back");
+                displayMenu();
                 break;
             case 5:
                 Settings settings = new Settings(currentUser, connector);
