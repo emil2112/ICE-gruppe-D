@@ -23,7 +23,7 @@ public class Menu {
                 workout.startWorkout();
                 break;
             case 2:
-                System.out.println("Entering Workout program tab...");
+                ui.displayMsg("Entering Workout program tab...");
                 this.workoutProgram = new WorkoutProgram(currentUser, connector);
                 workoutProgram.displayWorkoutProgramMenu();
                 break;
@@ -33,7 +33,7 @@ public class Menu {
                 calendar.calendarMenu();
                 break;
             case 4:
-                System.out.println("Entering stats page...");
+                ui.displayMsg("Entering stats page...");
                 ui.displayMsg("Under Development");
                 ui.promptNumeric("Press 1 to go back");
                 displayMenu();
@@ -41,14 +41,14 @@ public class Menu {
             case 5:
                 Settings settings = new Settings(currentUser, connector);
                 settings.settingsMenu();
-                System.out.println("Entering settings...");
+                ui.displayMsg("Entering settings...");
                 break;
             case 6:
                 ui.displayMsg("Exiting program...");
                 System.exit(0);
                 break;
             default:
-                System.out.println("Invalid choice. Please enter a number between 1 and 6.");
+                ui.displayMsg("Invalid choice. Please enter a number between 1 and 6.");
                 displayMenu();
                 break;
         }
