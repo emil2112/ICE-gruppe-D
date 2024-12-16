@@ -33,15 +33,25 @@ public class Workout {
 
         while(workingOut){
             for(Exercise e : exercises){
-                for(int sets = 0; sets <= e.getSets(); sets++){
+                int setsChoice = ui.promptNumeric("You are doing "+e.getExerciseName()+". How many sets are you doing?");
+                e.setSets(setsChoice);
+                int restTime = ui.promptNumeric("How many minutes are you resting between each set?");
+                e.setRestTime(restTime);
+                ui.displayMsg("Ok, uga buga time! Have a good workout!");
+                for(int sets = 1; sets <= e.getSets(); sets++){
                     ui.displayMsg("Current exercise: "+ e.getExerciseName()+"\n Set number "+sets);
                     ui.promptNumeric("How many reps did you do?");
                     ui.promptNumeric("How much weight did you lift?");
-                    ui.displayMsg("Good job! Now rest for "+e.getRestTime());
+                    ui.displayMsg("Good job! Now rest for "+e.getRestTime()+" minutes");
                 }
             }
             workingOut = false;
-
+            ui.displayMsg("Your workout is complete! Good job!");
+            Menu menu = new Menu(currentUser, dbConnector);
+            userChoice = ui.promptNumeric("Press 1 to return to the main menu");
+            if(userChoice == 1){
+                menu.displayMenu();
+            }
         }
     }
 
