@@ -5,29 +5,31 @@ public class WorkoutProgram {
     private User currentUser;
     private TextUI ui;
     private DBConnector connector;
+    private List<Exercise> selectedExercises = new ArrayList<>();  // Declare the list here
 
-
-    public WorkoutProgram(User currentUser, DBConnector connector){
+    public WorkoutProgram(User currentUser, DBConnector connector) {
         this.currentUser = currentUser;
-        ui = new TextUI();
+        this.ui = new TextUI();
         this.connector = connector;
-
     }
 
-    public void displayWorkoutProgramMenu(){
+    // Method to display the workout program menu
+    public void displayWorkoutProgramMenu() {
         ui.displayMsg("        Workout tab        \n========================= \n1. Create new workout \n2. Your Workout Programs");
         int choice = ui.promptNumeric("Enter number of menu:");
 
-        if (choice == 1){
+        if (choice == 1) {
             createWorkoutProgram();
-        } else if (choice == 2){
+        } else if (choice == 2) {
             System.out.println("Your workout programs:");
-        } else{
+            connector.displayPrograms(currentUser.getUsername());
+        } else {
             System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             displayWorkoutProgramMenu();
         }
-
     }
+
+    // method to create a workout program
     void createWorkoutProgram() {
         List<Exercise> exercises = connector.getAllExercises();
         if (exercises.isEmpty()) {
@@ -36,11 +38,11 @@ public class WorkoutProgram {
         }
 
         ui.displayMsg("Available exercises:");
-        for (Exercise exercise : exercises) {
-            ui.displayMsg(exercise.toString());
+        for (int i = 0; i < exercises.size(); i++) {
+            Exercise exercise = exercises.get(i);
+            ui.displayMsg(i + 1 + ". " + exercise.getExerciseName());
         }
 
-        List<Exercise> selectedExercises = new ArrayList<>();
         while (true) {
             int exerciseId = ui.promptNumeric("Enter the number of desired exercise to add to your program or 0 to finish:");
 
@@ -48,8 +50,7 @@ public class WorkoutProgram {
                 break;
             }
 
-            Exercise selectedExercise = selectedExercises.get(exerciseId-1);
-
+            Exercise selectedExercise = exercises.get(exerciseId - 1);
 
             if (selectedExercise != null) {
                 selectedExercises.add(selectedExercise);
@@ -62,13 +63,17 @@ public class WorkoutProgram {
         if (selectedExercises.isEmpty()) {
             ui.displayMsg("No exercises selected. Program was not created.");
         } else {
-            // save workout program to database code needed here...
+            connector.saveWorkoutProgram(this, currentUser);
+
             ui.displayMsg("Workout program created with the following exercises:");
             for (Exercise exercise : selectedExercises) {
-                ui.displayMsg(exercise.toString());
+                ui.displayMsg(exercise.getExerciseName());
             }
         }
     }
-}
 
-//2
+    // Getter for the selected exercises
+    public List<Exercise> getSelectedExercises() {
+        return selectedExercises;
+    }
+}
