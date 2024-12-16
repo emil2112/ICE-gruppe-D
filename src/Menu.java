@@ -30,6 +30,9 @@ public class Menu {
             calender.calendarMenu();
         } else if (choice == 4){
             System.out.println("Entering stats page...");
+            ui.displayMsg("Under Development");
+            ui.promptNumeric("Press 1 to go back");
+            displayMenu();
         } else if (choice == 5) {
             Settings settings = new Settings(currentUser, connector);
             settings.settingsMenu();
