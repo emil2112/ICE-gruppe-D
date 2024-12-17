@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginScreenGUI extends JFrame{
+public class  LoginScreenGUI extends JFrame{
 
     private JTextField usernameField;
     private JPasswordField passwordField;

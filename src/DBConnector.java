@@ -470,6 +470,34 @@ public class DBConnector {
             System.out.println(e.getMessage());
         }
     }
+
+    public void saveWorkoutProgramGUI(User currentUser, String name, String ex1, String ex2, String ex3, String ex4, String ex5) {
+        String sql = "INSERT INTO WorkoutProgram (workoutName, ExerciseID1, ExerciseID2, ExerciseID3, ExerciseID4, ExerciseID5) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+
+            pstmt.setString(1, name);
+            pstmt.setString(2, ex1);
+            pstmt.setString(3, ex2);
+            pstmt.setString(4, ex3);
+            pstmt.setString(5, ex4);
+            pstmt.setString(6, ex5);
+
+
+            pstmt.executeUpdate();
+
+
+            ResultSet rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                int workoutId = rs.getInt(1);
+                associateWorkoutProgramWithUser(currentUser, workoutId);
+            }
+        } catch (SQLException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+    }
 }
 
 //2
