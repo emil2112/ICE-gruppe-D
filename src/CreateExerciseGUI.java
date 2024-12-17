@@ -14,10 +14,12 @@ public class CreateExerciseGUI extends JFrame {
 
     public CreateExerciseGUI(Application application) {
         this.application = application;
+
         setTitle("Create exercise");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(360, 640);
         setLayout(new GridBagLayout());
+        setResizable(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
