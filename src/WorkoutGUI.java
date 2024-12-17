@@ -11,7 +11,7 @@ public class WorkoutGUI extends JFrame{
     private JTextField repsDone,weightDone;
     private JButton goBack, startWorkout;
     private JLabel reps,weight,exerciseName,restMessage;
-    private JComboBox<String> workoutList;
+    public JComboBox<String> workoutList;
     private DBConnector connector;
 
     public WorkoutGUI(Application application){
@@ -68,7 +68,8 @@ public class WorkoutGUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                startWorkout();
+                new StartWorkoutGUI(application).setVisible(true);
+                dispose();
             }
         });
 
