@@ -89,7 +89,6 @@ public class LoginScreenGUI extends JFrame{
 
         if(application.getConnector().validLogin(username,password)){
             application.setCurrentUser(application.getConnector().getUserData(username));
-            JOptionPane.showMessageDialog(this, "Login succesful!");
             dispose();
             new MainMenuGUI(application).setVisible(true);
         }else{

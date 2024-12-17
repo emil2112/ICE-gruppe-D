@@ -71,7 +71,9 @@ public class WorkoutProgramGUI extends JFrame{
         setLocationRelativeTo(null);
     }
     private void handleCreateWorkout(){
-        JOptionPane.showMessageDialog(this,"Create your own workout program!");
+
+       new CreateWorkoutProgramGUI(application).setVisible(true);
+       dispose();
     }
     private void handleCreateExercise(){
         new CreateExerciseGUI(application).setVisible(true);
