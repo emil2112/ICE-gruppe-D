@@ -141,7 +141,8 @@ public class CreateExerciseGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                mainMenu.handleWorkoutProgram();
+                new MainMenuGUI(application).setVisible(true);
+                dispose();
             }
         });
 
