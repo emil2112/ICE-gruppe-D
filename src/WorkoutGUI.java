@@ -67,6 +67,7 @@ public class WorkoutGUI extends JFrame{
         startWorkout.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 startWorkout();
             }
         });
