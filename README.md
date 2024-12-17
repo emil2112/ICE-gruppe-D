@@ -1,8 +1,8 @@
 Uga Buga Workouts
 
 Medlemmer:
-Thor
-Emil
-Emil
-Marcus
-Andreas
+Thor, 
+Emil, 
+Emil, 
+Marcus, 
+Andreas.
