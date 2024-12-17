@@ -1,3 +1,4 @@
+import java.lang.runtime.SwitchBootstraps;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,10 +23,59 @@ public class WorkoutProgram {
             createWorkoutProgram();
         } else if (choice == 2) {
             System.out.println("Your workout programs:");
-            connector.displayPrograms(currentUser.getUsername());
+            displayYourWorkoutPrograms();
         } else {
             System.out.println("Invalid choice. Please enter a number between 1 and 5.");
             displayWorkoutProgramMenu();
+        }
+    }
+
+    public void displayYourWorkoutPrograms() {
+        ArrayList<String> workoutNames = connector.displayPrograms(currentUser.getUsername());
+        boolean editWorkout = true;
+        int counter = 1;
+        for (String s : workoutNames) {
+            System.out.println(counter + ". " + s);
+            counter++;
+        }
+        int workoutProgramUserChoice = ui.promptNumeric("Choose workout to edit or remove:");
+        String workoutProgramChoice = workoutNames.get(workoutProgramUserChoice - 1);
+        List<Exercise> exercises = connector.getProgramExercises(workoutProgramChoice);
+
+        while (editWorkout) {
+            counter = 1;
+            ui.displayMsg("0. Remove entire workout program");
+                for (Exercise e : exercises) {
+                    ui.displayMsg(counter + ". " + e.getExerciseName());
+                    counter++;
+            }
+            int exerciseChoice = ui.promptNumeric("Choose an exercise to replace or delete entire workout program:");
+
+            if (exerciseChoice == 0){
+                // Delete workout program from user
+                connector.deleteWorkoutProgram(currentUser.getUsername(), workoutProgramChoice);
+                ui.displayMsg("Workout program deleted succesfully");
+                workoutNames.remove(workoutProgramChoice);
+                editWorkout = false;
+            } else if (exerciseChoice >= 1 && exerciseChoice <= exercises.size()){
+                // replace exercise
+                List<Exercise> allExercises = connector.getAllExercises();
+                ui.displayMsg("Available Exercises to replace with: ");
+                for (int i = 0; i < allExercises.size(); i++){
+                    ui.displayMsg((i + 1) + ". " + allExercises.get(i).getExerciseName());
+                }
+                int newExerciseChoice = ui.promptNumeric("Choose a new exercise:");
+                if (newExerciseChoice >= 1 && newExerciseChoice <= exercises.size()){
+                    Exercise newExercise = allExercises.get(newExerciseChoice - 1);
+                    exercises.set(exerciseChoice - 1, newExercise);
+                    connector.updateWorkoutProgram(workoutProgramChoice, exercises);
+                    ui.displayMsg("Exercise replaced succesfully");
+                } else {
+                    ui.displayMsg("Invalid exercise selection");
+                }
+            } else {
+
+            }
         }
     }
 

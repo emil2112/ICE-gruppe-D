@@ -333,8 +333,90 @@ public class DBConnector {
         }
     }
 
+    // Method to delete workout program from users by setting it to null
+    public void deleteWorkoutProgram(String username, String workoutProgramName) {
+        String fetchUserSQL = "SELECT WorkoutProgram1, WorkoutProgram2, WorkoutProgram3 FROM Users WHERE username = ?";
+        String updateUserSQL = "UPDATE Users SET %s = NULL WHERE username = ?";
 
+        try (PreparedStatement fetchStmt = conn.prepareStatement(fetchUserSQL)) {
+            fetchStmt.setString(1, username);
 
+            try (ResultSet rs = fetchStmt.executeQuery()) {
+                if (rs.next()) {
+                    String columnToNull = null;
+                    // Check which column holds the workout program ID and pick the correct column
+                    if (workoutProgramName.equals(getWorkoutNameFromId(rs.getInt("WorkoutProgram1")))) {
+                        columnToNull = "WorkoutProgram1";
+                    } else if (workoutProgramName.equals(getWorkoutNameFromId(rs.getInt("WorkoutProgram2")))) {
+                        columnToNull = "WorkoutProgram2";
+                    } else if (workoutProgramName.equals(getWorkoutNameFromId(rs.getInt("WorkoutProgram3")))) {
+                        columnToNull = "WorkoutProgram3";
+                    }
+
+                    if (columnToNull != null) {
+                        // Update the selected column to NULL
+                        try (PreparedStatement updateStmt = conn.prepareStatement(String.format(updateUserSQL, columnToNull))) {
+                            updateStmt.setString(1, username);
+                            int rowsAffected = updateStmt.executeUpdate();
+
+                            if (rowsAffected > 0) {
+                                ui.displayMsg("Workout program has been successfully deleted.");
+                            } else {
+                                ui.displayMsg("No rows affected. Verify the username and program name.");
+                            }
+                        }
+                    } else {
+                        ui.displayMsg("Workout program not found for the user.");
+                    }
+                } else {
+                    ui.displayMsg("User not found.");
+                }
+            }
+        } catch (SQLException e) {
+            ui.displayMsg("Error deleting workout program: " + e.getMessage());
+        }
+    }
+
+    public void updateWorkoutProgram(String workoutName, List<Exercise> updatedExercises) {
+        String updateSQL = "UPDATE WorkoutProgram SET ExerciseID1 = ?, ExerciseID2 = ?, ExerciseID3 = ?, ExerciseID4 = ?, ExerciseID5 = ? WHERE workoutName = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+            Integer[] exerciseIds = new Integer[5];
+            for (int i = 0; i < updatedExercises.size(); i++) {
+                exerciseIds[i] = getExerciseIdByName(updatedExercises.get(i).getExerciseName());
+            }
+
+            // Set placeholders
+            for (int i = 0; i < 5; i++) {
+                if (i < updatedExercises.size() && exerciseIds[i] != null) {
+                    stmt.setInt(i + 1, exerciseIds[i]);
+                } else {
+                    stmt.setNull(i + 1, Types.INTEGER);
+                }
+            }
+
+            stmt.setString(6, workoutName);
+            stmt.executeUpdate();
+            ui.displayMsg("Workout program updated successfully.");
+        } catch (SQLException e) {
+            ui.displayMsg("Error updating workout program: " + e.getMessage());
+        }
+    }
+
+    public String getWorkoutNameFromId(int workoutID) {
+        String sql = "SELECT workoutName FROM WorkoutProgram WHERE workoutID = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, workoutID);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("workoutName");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching workout name: " + e.getMessage());
+        }
+        return null;
+    }
 
 
     public int getExerciseIdByName(String exerciseName) {
