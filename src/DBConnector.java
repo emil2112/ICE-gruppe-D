@@ -4,6 +4,7 @@ import java.util.List;
 
 public class DBConnector {
     private Connection conn;
+    private TextUI ui = new TextUI();
 
     public void connect(String url) {
         try {
@@ -179,11 +180,9 @@ public class DBConnector {
 
     public List<Exercise> getAllExercises() {
         List<Exercise> exercises = new ArrayList<>();
-        String sql = "SELECT ExerciseName, Sets, Reps, Weight, RestTime, MuscleType FROM Exercise";
+        String sql = "SELECT ExerciseID, ExerciseName, Sets, Reps, Weight, RestTime, MuscleType FROM Exercise";
 
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
+        try (Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
                 String exerciseName = rs.getString("ExerciseName");
@@ -252,6 +251,109 @@ public class DBConnector {
         }
         return workoutNames;
     }
+    public void saveWorkoutProgram(WorkoutProgram workoutProgram, User currentUser) {
+        String workoutName = ui.promptText("Enter a name for your workout program:");
+
+        String insertWorkoutProgramSQL = "INSERT INTO WorkoutProgram (workoutName, ExerciseID1, ExerciseID2, ExerciseID3, ExerciseID4, ExerciseID5) VALUES (?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement stmt = conn.prepareStatement(insertWorkoutProgramSQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            // get selected exercises
+            List<Exercise> exercises = workoutProgram.getSelectedExercises();
+            Integer[] exerciseIds = new Integer[5]; // Array for Exercise IDs
+
+            // get Exercise IDs for each exercise in the list
+            for (int i = 0; i < exercises.size(); i++) {
+                String exerciseName = exercises.get(i).getExerciseName();
+                int exerciseId = getExerciseIdByName(exerciseName); // Method to get Exercise ID by name
+                exerciseIds[i] = exerciseId != -1 ? exerciseId : null;  // Store ID or null
+            }
+
+            stmt.setString(1, workoutName);
+            for (int i = 0; i < 5; i++) {
+                if (i < exercises.size() && exerciseIds[i] != null) {
+                    // Set Exercise ID for valid entries, i+2 so we jump over WorkoutID and workoutName
+                    stmt.setInt(i + 2, exerciseIds[i]);
+                } else {
+                    stmt.setNull(i + 2, Types.INTEGER); // Set NULL for empty slots
+                }
+            }
+
+            int rowsAffected = stmt.executeUpdate();
+            // get generated workoutID
+            if (rowsAffected > 0) {
+                try (ResultSet rs = stmt.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        int workoutId = rs.getInt(1);
+
+                        associateWorkoutProgramWithUser(currentUser, workoutId);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error saving workout program: " + e.getMessage());
+        }
+    }
+
+    private void associateWorkoutProgramWithUser(User currentUser, int workoutId) {
+        String fetchUserSQL = "SELECT WorkoutProgram1, WorkoutProgram2, WorkoutProgram3 FROM Users WHERE username = ?";
+        String updateUserSQL = "UPDATE Users SET %s = ? WHERE username = ?";
+
+        try (PreparedStatement fetchStmt = conn.prepareStatement(fetchUserSQL)) {
+            fetchStmt.setString(1, currentUser.getUsername());
+
+            try (ResultSet rs = fetchStmt.executeQuery()) {
+                if (rs.next()) {
+                    String columnToUpdate = null;
+
+                    // Check which column is empty and pick the first available one
+                    if (rs.getObject("WorkoutProgram1") == null) {
+                        columnToUpdate = "WorkoutProgram1";
+                    } else if (rs.getObject("WorkoutProgram2") == null) {
+                        columnToUpdate = "WorkoutProgram2";
+                    } else if (rs.getObject("WorkoutProgram3") == null) {
+                        columnToUpdate = "WorkoutProgram3";
+                    }
+
+                    if (columnToUpdate != null) {
+                        // Update the selected column with the new workout program ID
+                        try (PreparedStatement updateStmt = conn.prepareStatement(String.format(updateUserSQL, columnToUpdate))) {
+                            updateStmt.setInt(1, workoutId);
+                            updateStmt.setString(2, currentUser.getUsername());
+                            updateStmt.executeUpdate();
+                            System.out.println("Workout program associated with user in " + columnToUpdate);
+                        }
+                    } else {
+                        // All slots are occupied
+                        System.out.println("User already has 3 workout programs. Cannot add more.");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Error associating workout program with user: " + e.getMessage());
+        }
+    }
+
+
+
+
+
+    public int getExerciseIdByName(String exerciseName) {
+        String sql = "SELECT ExerciseID FROM Exercise WHERE ExerciseName = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, exerciseName);  // Use the exercise name to fetch the ID
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("ExerciseID");  // Return the exercise ID from the query
+            } else {
+                System.out.println("Error fetching exercise ID: Exercise with name '" + exerciseName + "' not found.");
+                return -1;  // Return -1 or handle as needed if exercise is not found
+            }
+        } catch (SQLException e) {
+            System.out.println("Error fetching exercise ID: " + e.getMessage());
+            return -1;
+        }
+    }
 
 
     public void setNewUsername(String newUsername, String oldUsername) {
@@ -286,57 +388,6 @@ public class DBConnector {
             System.out.println(e.getMessage());
         }
     }
-
-    /*
-    public ArrayList<String> selectPlayers(){
-        // initialize a List to return the selected data as string elements
-        ArrayList<String> data = new ArrayList<>();
-        // make the query string
-        String sql = "SELECT name, balance, position FROM Players";
-
-        try {
-            Statement stmt = conn.createStatement();
-
-            // execute the query
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while (rs.next()) {
-                //read each row of the result set ( = response from the query execution)
-                String row = rs.getString("name") + ", " + rs.getInt("balance")+", "+ rs.getInt("position");
-                //add the string to the ArrayList
-                data.add(row);
-            }
-
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return data;
-    }
-
-    public ArrayList<String> selectFields() {
-
-        // initialize a List to return the selected data as string elements
-        ArrayList<String> data = new ArrayList<>();
-
-        String sql = "SELECT label, field_type, cost, income FROM Fields";
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql);
-
-            while(rs.next()){
-                String label = rs.getString("label");
-                String field_type = rs.getString("field_type");
-                int cost = rs.getInt("cost");
-                int income = rs.getInt("income");
-                String field = label+", "+field_type+", "+income;
-                data.add(field);
-            }
-        }catch(SQLException exception){
-        }
-        return data;
-    }
-*/
-
 }
 
 //2

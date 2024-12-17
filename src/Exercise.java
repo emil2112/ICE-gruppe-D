@@ -39,6 +39,13 @@ public class Exercise {
         return muscleType;
     }
 
+    public void setSets(int sets) {
+        this.sets = sets;
+    }
+
+    public void setRestTime(float restTime) {
+        this.restTime = restTime;
+    }
 }
 
 //2
