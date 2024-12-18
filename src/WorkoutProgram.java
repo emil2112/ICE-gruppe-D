@@ -59,6 +59,8 @@ public class WorkoutProgram {
                     ui.displayMsg(counter + ". " + e.getExerciseName());
                     counter++;
             }
+            ui.displayMsg("6. Go back.");
+
             int exerciseChoice = ui.promptNumeric("Choose an exercise to replace or delete entire workout program:");
 
             if (exerciseChoice == 0){
@@ -67,7 +69,7 @@ public class WorkoutProgram {
                 ui.displayMsg("Workout program deleted succesfully");
                 workoutNames.remove(workoutProgramChoice);
                 editWorkout = false;
-            } else if (exerciseChoice >= 1 && exerciseChoice <= exercises.size()){
+            } else if (exerciseChoice >= 1 && exerciseChoice <= 4){
                 // replace exercise
                 List<Exercise> allExercises = connector.getAllExercises();
                 ui.displayMsg("Available Exercises to replace with: ");
@@ -75,7 +77,7 @@ public class WorkoutProgram {
                     ui.displayMsg((i + 1) + ". " + allExercises.get(i).getExerciseName());
                 }
                 int newExerciseChoice = ui.promptNumeric("Choose a new exercise:");
-                if (newExerciseChoice >= 1 && newExerciseChoice <= exercises.size()){
+                if (newExerciseChoice >= 1 && newExerciseChoice <= 4){
                     Exercise newExercise = allExercises.get(newExerciseChoice - 1);
                     exercises.set(exerciseChoice - 1, newExercise);
                     connector.updateWorkoutProgram(workoutProgramChoice, exercises);
@@ -83,8 +85,8 @@ public class WorkoutProgram {
                 } else {
                     ui.displayMsg("Invalid exercise selection");
                 }
-            } else {
-
+            } else if (exerciseChoice == 6) {
+                displayWorkoutProgramMenu();
             }
         }
     }
